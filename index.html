@@ -3,61 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Recompensas</title>
+    <title>Painel Premium</title>
     <style>
-        body { font-family: sans-serif; background-color: #1a1a2e; color: white; text-align: center; padding: 20px; }
-        .balance-card { background: #16213e; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #4e31aa; }
-        .mission-card { background: #0f3460; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-go { background: #4e31aa; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; }
-        h1 { border-left: 5px solid #4e31aa; padding-left: 10px; display: inline-block; font-size: 1.2rem; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0e14; color: white; text-align: center; padding: 20px; }
+        .header-profile { display: flex; align-items: center; justify-content: space-around; background: #16213e; padding: 15px; border-radius: 20px; margin-bottom: 20px; border-bottom: 3px solid #4e31aa; }
+        .balance-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 25px; border-radius: 25px; margin-bottom: 25px; border: 1px solid #4e31aa; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .mission-card { background: #1f1f3a; padding: 18px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .mission-card:hover { transform: scale(1.02); }
+        .btn-go { background: #4e31aa; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .refer-section { background: #0f3460; padding: 15px; border-radius: 15px; margin-top: 30px; border: 1px dashed #4e31aa; }
+        h1 { border-left: 6px solid #4e31aa; padding-left: 12px; font-size: 1.4rem; text-align: left; }
     </style>
 </head>
 <body>
 
-    <div class="balance-card">
-        <p>Saldo Atual</p>
-        <h2 id="saldo">R$ 0,00</h2>
+    <div class="header-profile">
+        <div><strong>Usuário:</strong> <span id="userName">Membro_782</span></div>
+        <div><strong>Nível:</strong> ⭐ Prata</div>
     </div>
 
-    <h1>Missões Disponíveis</h1>
+    <div class="balance-card">
+        <p style="margin:0; opacity: 0.8;">Saldo Disponível</p>
+        <h2 id="saldo" style="font-size: 2.5rem; margin: 10px 0;">R$ 0,00</h2>
+        <small style="color: #00ff88;">● Saque liberado a partir de R$ 50,00</small>
+    </div>
+
+    <h1>🚀 Tarefas Diárias</h1>
 
     <div class="mission-card">
-        <div>
-            <strong>Missão 01</strong><br>
-            <small>Ganhe R$ 1,50</small>
-        </div>
+        <div><strong>Tarefa 01</strong><br><small>Ganhe R$ 1,50 (CPI/Email)</small></div>
         <button class="btn-go" onclick="doMission(1.50, 'https://installyourfiles.com/1879502')">IR</button>
     </div>
 
-    <div class="mission-card">
-        <div>
-            <strong>Missão 02</strong><br>
-            <small>Ganhe R$ 2,00</small>
-        </div>
-        <button class="btn-go" onclick="doMission(2.00, '#')">IR</button>
-    </div>
-
-    <div class="mission-card">
-        <div>
-            <strong>Missão 03</strong><br>
-            <small>Ganhe R$ 3,50</small>
-        </div>
-        <button class="btn-go" onclick="doMission(3.50, '#')">IR</button>
+    <div class="refer-section">
+        <h3>👥 Indique um Amigo</h3>
+        <p>Ganhe <strong>R$ 5,00</strong> por cada amigo que se cadastrar!</p>
+        <button class="btn-go" style="background: #00ff88; color: #000;" onclick="copyReferLink()">COPIAR MEU LINK</button>
     </div>
 
     <script>
+        // Pergunta o nome ao entrar
+        let name = prompt("Qual o seu nome para o cadastro?");
+        if (name) document.getElementById('userName').innerText = name;
+
         let currentBalance = 0;
 
         function doMission(valor, link) {
-            if(link === '#') {
-                alert('Esta missão ainda não possui um link configurado.');
-                return;
-            }
             window.open(link, '_blank');
             currentBalance += valor;
             document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
-            alert('Missão iniciada! O saldo visual será atualizado.');
+            alert('Aguardando conclusão da tarefa...');
+        }
+
+        function copyReferLink() {
+            let siteLink = window.location.href;
+            navigator.clipboard.writeText("Ganhe dinheiro baixando apps aqui: " + siteLink);
+            alert("Link de indicação copiado! Envie para seus amigos.");
+            
+            // Simula bônus visual de indicação
+            currentBalance += 5.00;
+            document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
         }
     </script>
 </body>
 </html>
+
