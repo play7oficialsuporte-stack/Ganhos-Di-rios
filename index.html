@@ -3,68 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Premium</title>
+    <title>Painel de Recompensas Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0e14; color: white; text-align: center; padding: 20px; }
-        .header-profile { display: flex; align-items: center; justify-content: space-around; background: #16213e; padding: 15px; border-radius: 20px; margin-bottom: 20px; border-bottom: 3px solid #4e31aa; }
-        .balance-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 25px; border-radius: 25px; margin-bottom: 25px; border: 1px solid #4e31aa; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .mission-card { background: #1f1f3a; padding: 18px; border-radius: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .mission-card:hover { transform: scale(1.02); }
-        .btn-go { background: #4e31aa; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .refer-section { background: #0f3460; padding: 15px; border-radius: 15px; margin-top: 30px; border: 1px dashed #4e31aa; }
-        h1 { border-left: 6px solid #4e31aa; padding-left: 12px; font-size: 1.4rem; text-align: left; }
+        :root { --primary: #4e31aa; --bg: #0b0e14; --card: #16213e; --text: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; }
+        
+        /* Menu Lateral Estilizado */
+        .sidebar-header { border-left: 5px solid var(--primary); padding: 10px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        .container { padding: 15px; }
+        
+        /* Cartão de Saldo */
+        .balance-card { background: linear-gradient(135deg, #1a1a2e, #4e31aa); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .balance-card h2 { font-size: 2.5rem; margin: 10px 0; }
+        
+        /* Texto Explicativo */
+        .info-box { background: rgba(78, 49, 170, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.4; }
+
+        /* Missões */
+        .mission-card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #252a34; }
+        .btn-go { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        /* Anúncio Nativo */
+        .native-ad { background: #050505; border: 2px dashed #333; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; color: #777; font-size: 0.8rem; }
+        
+        /* Rodapé Menu */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid var(--primary); }
+        .nav-item { color: white; text-decoration: none; font-size: 0.8rem; opacity: 0.7; }
     </style>
 </head>
 <body>
 
-    <div class="header-profile">
-        <div><strong>Usuário:</strong> <span id="userName">Membro_782</span></div>
-        <div><strong>Nível:</strong> ⭐ Prata</div>
+    <div class="sidebar-header">
+        <div><strong>Olá, <span id="userName">Membro</span></strong></div>
+        <div style="font-size: 0.8rem; color: #00ff88;">● Online</div>
     </div>
 
-    <div class="balance-card">
-        <p style="margin:0; opacity: 0.8;">Saldo Disponível</p>
-        <h2 id="saldo" style="font-size: 2.5rem; margin: 10px 0;">R$ 0,00</h2>
-        <small style="color: #00ff88;">● Saque liberado a partir de R$ 50,00</small>
+    <div class="container">
+        <div class="balance-card">
+            <p style="opacity: 0.8; margin: 0;">Saldo Disponível</p>
+            <h2 id="saldo">R$ 0,00</h2>
+            <small>Mínimo para saque: R$ 50,00</small>
+        </div>
+
+        <div class="info-box">
+            <strong>Como funciona?</strong><br>
+            Complete as tarefas abaixo para acumular pontos. O saldo é atualizado visualmente e liberado após a verificação da tarefa pelo anunciante.
+        </div>
+
+        <h3>🚀 Missões Disponíveis</h3>
+
+        <div id="missoes-container">
+            </div>
+
+        <div class="native-ad">
+            <p>PUBLICIDADE</p>
+            <div id="adsterra-native-1">CÓDIGO DO ANÚNCIO AQUI</div>
+        </div>
+
+        <h3>👥 Indicação</h3>
+        <div class="mission-card" style="background: #1a1a2e; border-color: #00ff88;">
+            <div><strong>Indique um Amigo</strong><br><small>Ganhe R$ 5,00 por novo usuário</small></div>
+            <button class="btn-go" style="background: #00ff88; color: black;" onclick="copyRefer()">COPIAR</button>
+        </div>
     </div>
 
-    <h1>🚀 Tarefas Diárias</h1>
-
-    <div class="mission-card">
-        <div><strong>Tarefa 01</strong><br><small>Ganhe R$ 1,50 (CPI/Email)</small></div>
-        <button class="btn-go" onclick="doMission(1.50, 'https://installyourfiles.com/1879502')">IR</button>
-    </div>
-
-    <div class="refer-section">
-        <h3>👥 Indique um Amigo</h3>
-        <p>Ganhe <strong>R$ 5,00</strong> por cada amigo que se cadastrar!</p>
-        <button class="btn-go" style="background: #00ff88; color: #000;" onclick="copyReferLink()">COPIAR MEU LINK</button>
-    </div>
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item">🏠 Home</a>
+        <a href="#" class="nav-item" onclick="alert('Mínimo R$ 50,00')">💰 Saque</a>
+        <a href="#" class="nav-item" onclick="alert('Indique amigos e ganhe R$ 5,00')">🎁 Prêmios</a>
+        <a href="#" class="nav-item" onclick="alert('Suporte via Telegram')">🛠 Ajuda</a>
+    </nav>
 
     <script>
-        // Pergunta o nome ao entrar
-        let name = prompt("Qual o seu nome para o cadastro?");
-        if (name) document.getElementById('userName').innerText = name;
+        // Nome do Usuário
+        let user = prompt("Digite seu nome para acessar o painel:");
+        if(user) document.getElementById('userName').innerText = user;
 
         let currentBalance = 0;
 
-        function doMission(valor, link) {
-            window.open(link, '_blank');
-            currentBalance += valor;
-            document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
-            alert('Aguardando conclusão da tarefa...');
+        // Criar 5 Missões de teste
+        const container = document.getElementById('missoes-container');
+        for(let i=1; i<=5; i++){
+            container.innerHTML += `
+                <div class="mission-card">
+                    <div><strong>Missão 0${i}</strong><br><small>Recompensa: R$ 1,50</small></div>
+                    <button class="btn-go" onclick="doTask(1.50)">IR</button>
+                </div>
+            `;
         }
 
-        function copyReferLink() {
-            let siteLink = window.location.href;
-            navigator.clipboard.writeText("Ganhe dinheiro baixando apps aqui: " + siteLink);
-            alert("Link de indicação copiado! Envie para seus amigos.");
-            
-            // Simula bônus visual de indicação
-            currentBalance += 5.00;
+        function doTask(v) {
+            // Aqui você coloca o link de anúncio ou tarefa real
+            window.open('https://installyourfiles.com/1879502', '_blank');
+            currentBalance += v;
             document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
+        }
+
+        function copyRefer() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link de indicação copiado!");
         }
     </script>
 </body>
 </html>
-
