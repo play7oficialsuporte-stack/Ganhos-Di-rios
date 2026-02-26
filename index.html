@@ -4,39 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Recompensas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f7f6; font-family: sans-serif; }
-        .bank-header { background: #820ad1; color: white; padding: 25px; border-radius: 0 0 25px 25px; }
-        .balance-card { background: white; margin-top: -30px; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .mission-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #820ad1; }
-        .btn-bank { background: #820ad1; color: white; border-radius: 20px; width: 100%; border: none; padding: 10px; }
+        body { font-family: sans-serif; background-color: #1a1a2e; color: white; text-align: center; padding: 20px; }
+        .balance-card { background: #16213e; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #4e31aa; }
+        .mission-card { background: #0f3460; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-go { background: #4e31aa; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; }
+        h1 { border-left: 5px solid #4e31aa; padding-left: 10px; display: inline-block; font-size: 1.2rem; }
     </style>
 </head>
 <body>
-    <div class="bank-header"><h5>Olá, Usuário 👋</h5><p>Seu painel de tarefas está ativo.</p></div>
-    <div class="container">
-        <div class="balance-card text-center">
-            <small>Saldo Disponível</small>
-            <h2 id="balanceText" class="fw-bold">R$ 0,00</h2>
-            <button class="btn btn-sm btn-outline-primary mt-2" onclick="alert('Mínimo: R$ 100')">Sacar</button>
-        </div>
-        <div class="mt-4">
-            <div class="mission-card d-flex justify-content-between align-items-center">
-                <div><p class="m-0 fw-bold">Missão 01: Assistir Anúncio</p><small>+ R$ 1,50</small></div>
-                <button class="btn-bank w-25" onclick="doMission(1.50, 'SEU_LINK_AQUI')">Ir</button>
-            </div>
-        </div>
+
+    <div class="balance-card">
+        <p>Saldo Atual</p>
+        <h2 id="saldo">R$ 0,00</h2>
     </div>
+
+    <h1>Missões Disponíveis</h1>
+
+    <div class="mission-card">
+        <div>
+            <strong>Missão 01</strong><br>
+            <small>Ganhe R$ 1,50</small>
+        </div>
+        <button class="btn-go" onclick="doMission(1.50, 'https://installyourfiles.com/1879502')">IR</button>
+    </div>
+
+    <div class="mission-card">
+        <div>
+            <strong>Missão 02</strong><br>
+            <small>Ganhe R$ 2,00</small>
+        </div>
+        <button class="btn-go" onclick="doMission(2.00, '#')">IR</button>
+    </div>
+
+    <div class="mission-card">
+        <div>
+            <strong>Missão 03</strong><br>
+            <small>Ganhe R$ 3,50</small>
+        </div>
+        <button class="btn-go" onclick="doMission(3.50, '#')">IR</button>
+    </div>
+
     <script>
-        if (!localStorage.getItem('userBalance')) { localStorage.setItem('userBalance', '0.00'); }
-        function updateDisplay() { document.getElementById('balanceText').innerText = 'R$ ' + localStorage.getItem('userBalance'); }
-        updateDisplay();
-        function doMission(amount, adLink) {
-            window.open(adLink, '_blank');
-            let current = parseFloat(localStorage.getItem('userBalance'));
-            localStorage.setItem('userBalance', (current + amount).toFixed(2));
-            setTimeout(() => { updateDisplay(); alert('R$ ' + amount + ' adicionados!'); }, 2000);
+        let currentBalance = 0;
+
+        function doMission(valor, link) {
+            if(link === '#') {
+                alert('Esta missão ainda não possui um link configurado.');
+                return;
+            }
+            window.open(link, '_blank');
+            currentBalance += valor;
+            document.getElementById('saldo').innerText = 'R$ ' + currentBalance.toFixed(2).replace('.', ',');
+            alert('Missão iniciada! O saldo visual será atualizado.');
         }
     </script>
 </body>
