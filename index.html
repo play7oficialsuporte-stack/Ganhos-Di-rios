@@ -3,88 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play7 Oficial - Painel VIP</title>
+    <title>Play7 Oficial - Ganhos Diários</title>
     <style>
-        :root { --primary: #6c48ff; --bg: #05070a; --card: #111827; --text: #ffffff; --success: #00ffa3; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
+        :root { --primary: #6c48ff; --bg: #05070a; --card: #111827; --text: #ffffff; --success: #00ffa3; --danger: #ff4d4d; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
+        
         .header-main { border-left: 6px solid var(--primary); padding: 15px 20px; background: var(--card); display: flex; justify-content: space-between; align-items: center; }
         .container { padding: 20px; }
-        .balance-card { background: linear-gradient(145deg, #111827, #1f2937); padding: 30px; border-radius: 24px; text-align: center; border: 1px solid rgba(108,72,255,0.3); }
+
+        .balance-card { background: linear-gradient(145deg, #111827, #1f2937); padding: 30px; border-radius: 24px; text-align: center; border: 1px solid rgba(108, 72, 255, 0.3); }
+        .balance-card h2 { font-size: 3rem; margin: 10px 0; }
+        
         .progress-container { background: #374151; height: 12px; border-radius: 10px; margin: 20px 0 10px; overflow: hidden; }
-        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; }
-        .mission-card { background: var(--card); padding: 20px; border-radius: 18px; margin-bottom: 15px; border: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; }
-        .btn-action { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; opacity: 0.6; }
-        footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
+        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; box-shadow: 0 0 15px var(--primary); }
+
+        .mission-card { background: var(--card); padding: 20px; border-radius: 18px; margin-bottom: 15px; border: 1px solid #1f2937; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+
         .page { display: none; }
-        .active { display: block; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0f172a; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #1e293b; }
+        .page.active { display: block; }
+
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #0f172a; display: flex; justify-content: space-around; padding: 18px 0; border-top: 1px solid #1e293b; z-index: 100; }
+        .nav-link { color: #94a3b8; text-decoration: none; font-size: 0.8rem; cursor: pointer; text-align: center; }
+        .nav-link.active { color: var(--primary); }
+
+        footer { text-align: center; padding: 20px; font-size: 0.7rem; opacity: 0.5; margin-bottom: 20px; }
+        footer a { color: var(--text); text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
 
-<header class="header-main">
-    <div><small>ID:</small> <strong id="userIdDisplay">...</strong></div>
-    <div style="text-align: right;"><small>STATUS</small><br><span style="color: var(--success);">● ONLINE</span></div>
-</header>
+    <header class="header-main">
+        <div><small>USUÁRIO</small><br><strong id="dispName">CARREGANDO...</strong></div>
+        <div style="text-align: right;"><small>ID</small><br><span id="uid" style="color: var(--success); font-size: 0.7rem;"></span></div>
+    </header>
 
-<div class="container">
-    <div class="balance-card">
-        <small>SALDO TOTAL</small>
-        <h2 id="saldoTxt">R$ 0,00</h2>
-        <div class="progress-container"><div id="pBar" class="progress-bar"></div></div>
-        <small id="pText">0% para o saque mínimo (R$ 200)</small>
+    <div id="p-home" class="page active">
+        <div class="container">
+            <div class="balance-card">
+                <small>SALDO ATUAL</small>
+                <h2 id="mainSaldo">R$ 0,00</h2>
+                <div class="progress-container"><div id="pBar" class="progress-bar"></div></div>
+                <small id="pText">Carregando...</small>
+            </div>
+            <h3 style="margin-top: 30px; border-left: 4px solid var(--primary); padding-left: 10px;">MISSÕES</h3>
+            <div id="task-list"></div>
+        </div>
     </div>
 
-    <h3 style="margin-top:25px; border-left: 4px solid var(--primary); padding-left:10px;">MISSÕES DISPONÍVEIS</h3>
-    <div id="taskList"></div>
-</div>
+    <div id="p-saque" class="page">
+        <div class="container">
+            <h3>ÁREA DE RESGATE</h3>
+            <div class="balance-card">
+                <small>DISPONÍVEL</small>
+                <h2 id="saqueSaldo">R$ 0,00</h2>
+            </div>
+            <div id="saqueAlert" style="background: rgba(255, 77, 77, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 0.8rem; text-align: center;">
+                ⚠️ Saque bloqueado. Mínimo de <b>R$ 200,00</b> necessário.
+            </div>
+        </div>
+    </div>
 
-<footer>
-    <a href="privacidade.html">Privacidade</a> | <a href="termos.html">Termos</a>
-    <p>© 2026 Play7 Oficial</p>
-</footer>
-
-<div class="nav-bar">
-    <span onclick="location.reload()">🏠 Início</span>
-    <span onclick="alert('Mínimo R$ 200 para sacar')">💰 Sacar</span>
-</div>
-
-<script>
-    // 1. GERA ID ÚNICO
-    let uid = localStorage.getItem('play7_id') || 'u' + Math.floor(Math.random()*1000000);
-    localStorage.setItem('play7_id', uid);
-    document.getElementById('userIdDisplay').innerText = uid;
-
-    // 2. SISTEMA DE SALDO
-    let saldo = parseFloat(localStorage.getItem('play7_saldo')) || 0;
-    const MIN = 200;
-
-    function atualizar() {
-        document.getElementById('saldoTxt').innerText = "R$ " + saldo.toFixed(2).replace('.',',');
-        let perc = (saldo / MIN) * 100;
-        document.getElementById('pBar').style.width = (perc > 100 ? 100 : perc) + "%";
-        document.getElementById('pText').innerText = Math.floor(perc) + "% para o saque (R$ 200)";
-        localStorage.setItem('play7_saldo', saldo);
-    }
-
-    // 3. GERA MISSÕES
-    const m = ["Instalar App VIP", "Testar Jogo GamePix", "Ver anúncio premiado"];
-    m.forEach(nome => {
-        document.getElementById('taskList').innerHTML += `
+    <div id="p-indica" class="page">
+        <div class="container">
+            <h3>INDICAR AMIGOS</h3>
             <div class="mission-card">
-                <div><strong>${nome}</strong><br><small>+ R$ 5,00</small></div>
-                <button class="btn-action" onclick="fazerMissao(5)">IR</button>
-            </div>`;
-    });
+                <p>Ganhe R$ 10,00 por indicação (Máximo 5).</p>
+                <button class="btn-action" onclick="copiarLink()">COPIAR MEU LINK</button>
+            </div>
+        </div>
+    </div>
 
-    function fazerMissao(v) {
-        window.open('https://google.com', '_blank'); // Aqui irá seu link de anúncio
-        saldo += v;
-        atualizar();
-    }
+    <footer>
+        <a href="privacidade.html">Privacidade</a> | <a href="termos.html">Termos de Uso</a>
+        <p>© 2026 Play7 Oficial</p>
+    </footer>
 
-    atualizar();
-</script>
+    <nav class="bottom-nav">
+        <div class="nav-link active" onclick="nav('p-home', this)">🏠<br>Missões</div>
+        <div class="nav-link" onclick="nav('p-saque', this)">💰<br>Sacar</div>
+        <div class="nav-link" onclick="nav('p-indica', this)">👥<br>Indicar</div>
+    </nav>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem('play7_v4')) || { 
+            name: "", balance: 0, uid: 'u' + Math.floor(Math.random()*99999) 
+        };
+
+        if(!data.name) {
+            data.name = prompt("Qual seu nome?") || "Convidado";
+            save();
+        }
+
+        function save() { 
+            localStorage.setItem('play7_v4', JSON.stringify(data)); 
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('dispName').innerText = data.name.toUpperCase();
+            document.getElementById('uid').innerText = data.uid;
+            document.querySelectorAll('#mainSaldo, #saqueSaldo').forEach(e => e.innerText = `R$ ${data.balance.toFixed(2).replace('.',',')}`);
+            
+            let perc = (data.balance / 200) * 100;
+            document.getElementById('pBar').style.width = (perc > 100 ? 100 : perc) + "%";
+            document.getElementById('pText').innerText = `${Math.floor(perc)}% para o saque (R$ 200)`;
+            
+            if(data.balance >= 200) document.getElementById('saqueAlert').style.display = 'none';
+        }
+
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Lista de Missões
+        const missions = ["Instalar App VIP", "Ver Vídeo Adsterra", "Missão YouTube"];
+        missions.forEach(m => {
+            document.getElementById('task-list').innerHTML += `
+                <div class="mission-card">
+                    <strong>${m}</strong><br><small>+ R$ 5,00</small>
+                    <button class="btn-action" onclick="doTask(5)">EXECUTAR</button>
+                </div>`;
+        });
+
+        function doTask(v) {
+            window.open('https://google.com', '_blank');
+            data.balance += v;
+            save();
+        }
+
+        function copiarLink() {
+            navigator.clipboard.writeText('www.play7oficial.com/?ref=' + data.uid);
+            alert("Link copiado!");
+        }
+
+        updateUI();
+    </script>
 </body>
 </html>
