@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play7 Oficial | Ganhos Diários</title>
+    <title>Plataforma de Ganhos</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -12,41 +12,86 @@
             --accent: #ff9100; --text: #ffffff; --border: #2d313d;
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; }
-        .header { background: rgba(23,26,38,0.9); padding: 15px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); text-align: center; }
+        
+        /* Header Customizado */
+        .header { 
+            background: rgba(23,26,38,0.9); 
+            padding: 15px 20px; 
+            border-bottom: 1px solid var(--border); 
+            position: fixed; top: 0; width: 100%; z-index: 100; 
+            backdrop-filter: blur(5px); 
+            display: flex; justify-content: space-between; align-items: center;
+            box-sizing: border-box;
+        }
+        .user-info { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+        .user-id { font-size: 0.7rem; color: #b0b3b8; }
+
         .balance-box { margin-top: 80px; padding: 20px; }
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
+        
+        /* Banner abaixo do saldo */
+        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
+
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; text-align: center; }
-        #ad-nativo { margin: 20px; text-align: center; min-height: 100px; border: 1px dashed var(--border); border-radius: 12px; padding: 10px; }
+        
+        .ad-container { margin: 15px 0; text-align: center; width: 100%; }
     </style>
 </head>
 <body>
 
-    <div class="header"><strong>Play7 Oficial</strong></div>
+    <div class="header">
+        <div class="user-info" id="user-display">Usuário: Carregando...</div>
+        <div class="user-id" id="id-display">ID: #000000</div>
+    </div>
 
     <div class="balance-box">
         <div class="card">
             <small>SEU SALDO ATUAL</small>
             <div class="balance-val" id="saldo">R$ 0,00</div>
             <small style="color:var(--accent)">Mínimo para saque: R$ 200,00</small>
+            
+            <img src="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png" class="promo-banner" alt="Promoção">
         </div>
-    </div>
-
-    <div id="ad-nativo">
-        <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
-        <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
     </div>
 
     <div class="task-list" id="lista-missoes">
         <h3>Missões Disponíveis 🔥</h3>
+        
         <div class="task">
             <div><strong>Missão #01</strong><br><small>Ouvir no Spotify</small></div>
             <div style="color:var(--primary)">+R$ 4,50</div>
-            <button class="btn" onclick="executarMissao('https://open.spotify.com', 4.50)">INICIAR</button>
+            <button class="btn" onclick="executarMissao('http://spotify.com', 4.50)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>Missão #02</strong><br><small>Seguir no Instagram</small></div>
+            <div style="color:var(--primary)">+R$ 3,00</div>
+            <button class="btn" onclick="executarMissao('http://instagram.com', 3.00)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>Missão #03</strong><br><small>Avaliar App na PlayStore</small></div>
+            <div style="color:var(--primary)">+R$ 5,00</div>
+            <button class="btn" onclick="executarMissao('http://google.com', 5.00)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>Missão #04</strong><br><small>Assistir Vídeo Curto</small></div>
+            <div style="color:var(--primary)">+R$ 2,50</div>
+            <button class="btn" onclick="executarMissao('http://youtube.com', 2.50)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>Missão #05</strong><br><small>Validar Cadastro Ads</small></div>
+            <div style="color:var(--primary)">+R$ 6,00</div>
+            <button class="btn" onclick="executarMissao('http://google.com', 6.00)">INICIAR</button>
+        </div>
+
+        <div class="ad-container">
+            <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
+            <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
         </div>
     </div>
 
@@ -58,7 +103,7 @@
     </div>
 
     <script>
-        // Configuração Firebase extraída da sua imagem
+        // Configuração Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
             authDomain: "play7oficial-c9243.firebaseapp.com",
@@ -70,30 +115,26 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        
+        // Simulação de Identificação Única
+        const userId = "USR" + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('id-display').innerText = "ID: #" + userId;
+        document.getElementById('user-display').innerText = "Usuário: Convidado_" + userId.slice(-3);
+
         let saldoLocal = 0;
-        let contadorAds = 0;
 
         function executarMissao(linkMissao, valor) {
-            // Clique Triplo para Lucro Máximo
-            window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); // Ads Adulto
-            window.open(linkMissao, '_blank'); // Link da Missão (Spotify, etc)
+            window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
+            window.open(linkMissao, '_blank'); 
             
             saldoLocal += valor;
-            contadorAds++;
             document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
-            
-            alert('Missão registrada! Continue para validar.');
-
-            // A cada 5 missões, força o anúncio nativo recarregando
-            if(contadorAds % 5 === 0) {
-                alert("Validando seu progresso com parceiros...");
-                location.reload();
-            }
+            alert('Missão registrada com sucesso!');
         }
 
         function tentarSaque() {
             if(saldoLocal < 200) {
-                alert('Saldo insuficiente! Continue as missões para atingir R$ 200,00.');
+                alert('Saldo insuficiente! Você precisa de pelo menos R$ 200,00.');
             } else {
                 location.href = 'saque-pix.html';
             }
