@@ -3,41 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Ganhos | Play7</title>
+    <title>Painel | Play7</title>
     <link rel="preload" as="image" href="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png">
+    
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        :root {
-            --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676;
-            --accent: #ff9100; --text: #ffffff; --border: #2d313d;
-        }
+        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; }
-        
-        .header { 
-            background: rgba(23,26,38,0.9); padding: 15px 20px; border-bottom: 1px solid var(--border); 
-            position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); 
-            display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;
-        }
+        .header { background: rgba(23,26,38,0.9); padding: 15px 20px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
         .user-info { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
         .user-id { font-size: 0.7rem; color: #b0b3b8; }
-
         .balance-box { margin-top: 80px; padding: 20px; }
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
-        
+        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; text-align: center; }
+        .ad-container { margin: 20px 0; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="user-info" id="user-display">Usuário: Carregando...</div>
+        <div class="user-info" id="user-display">Usuário: ...</div>
         <div class="user-id" id="id-display">ID: #000000</div>
     </div>
 
@@ -46,36 +38,42 @@
             <small>SEU SALDO ATUAL</small>
             <div class="balance-val" id="saldo">R$ 10,00</div>
             <small style="color:var(--accent)">Mínimo para saque: R$ 200,00</small>
+            
+            <img src="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png" class="promo-banner" alt="Promoção">
         </div>
     </div>
 
-    <div class="task-list" id="lista-missoes">
+    <div class="task-list">
         <h3>Missões Disponíveis 🔥</h3>
-        
         <div class="task">
-            <div><strong>Missão #01</strong><br><small>Ouvir no Spotify</small></div>
+            <div><strong>#01</strong><br><small>Ouvir Spotify</small></div>
             <div style="color:var(--primary)">+R$ 4,50</div>
             <button class="btn" onclick="executarMissao('http://spotify.com', 4.50)">INICIAR</button>
         </div>
         <div class="task">
-            <div><strong>Missão #02</strong><br><small>Seguir no Instagram</small></div>
+            <div><strong>#02</strong><br><small>Seguir Instagram</small></div>
             <div style="color:var(--primary)">+R$ 3,00</div>
             <button class="btn" onclick="executarMissao('http://instagram.com', 3.00)">INICIAR</button>
         </div>
         <div class="task">
-            <div><strong>Missão #03</strong><br><small>Avaliar App</small></div>
+            <div><strong>#03</strong><br><small>Avaliar App</small></div>
             <div style="color:var(--primary)">+R$ 5,00</div>
             <button class="btn" onclick="executarMissao('http://google.com', 5.00)">INICIAR</button>
         </div>
         <div class="task">
-            <div><strong>Missão #04</strong><br><small>Assistir Vídeo</small></div>
+            <div><strong>#04</strong><br><small>Assistir Vídeo</small></div>
             <div style="color:var(--primary)">+R$ 2,50</div>
             <button class="btn" onclick="executarMissao('http://youtube.com', 2.50)">INICIAR</button>
         </div>
         <div class="task">
-            <div><strong>Missão #05</strong><br><small>Validar Cadastro</small></div>
+            <div><strong>#05</strong><br><small>Validar Cadastro</small></div>
             <div style="color:var(--primary)">+R$ 6,00</div>
             <button class="btn" onclick="executarMissao('http://google.com', 6.00)">INICIAR</button>
+        </div>
+
+        <div class="ad-container">
+            <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
+            <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
         </div>
     </div>
 
@@ -87,47 +85,29 @@
     </div>
 
     <script>
-        // Configuração Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
-            authDomain: "play7oficial-c9243.firebaseapp.com",
-            projectId: "play7oficial-c9243",
-            storageBucket: "play7oficial-c9243.firebasestorage.app",
-            messagingSenderId: "234372671693",
-            appId: "1:234372671693:web:dae3f8ab7b7952206778f9"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y", authDomain: "play7oficial-c9243.firebaseapp.com", projectId: "play7oficial-c9243", storageBucket: "play7oficial-c9243.firebasestorage.app", messagingSenderId: "234372671693", appId: "1:234372671693:web:dae3f8ab7b7952206778f9" };
         firebase.initializeApp(firebaseConfig);
         
-        // --- LÓGICA DE SALDO E NOME ---
         const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
-        const bônusInicial = parseFloat(localStorage.getItem('saldo_inicial')) || 0;
-        
-        // Se for a primeira vez, o saldoLocal começa com o bônus de 10 reais
-        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || bônusInicial;
+        const bônus = parseFloat(localStorage.getItem('saldo_inicial')) || 0;
+        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || bônus;
 
-        // Atualiza a tela
         document.getElementById('user-display').innerText = "Usuário: " + nomeSalvo;
         document.getElementById('id-display').innerText = "ID: #" + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
 
-        function executarMissao(linkMissao, valor) {
+        function executarMissao(link, valor) {
             window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
-            window.open(linkMissao, '_blank'); 
-            
+            window.open(link, '_blank'); 
             saldoLocal += valor;
-            // Salva o novo saldo para não perder ao atualizar a página
             localStorage.setItem('saldo_atual', saldoLocal);
-            
             document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
-            alert('Missão registrada! Saldo atualizado.');
+            alert('Missão registrada!');
         }
 
         function tentarSaque() {
-            if(saldoLocal < 200) {
-                alert('Saldo insuficiente! Continue as missões para atingir R$ 200,00.');
-            } else {
-                location.href = 'saque-pix.html';
-            }
+            if(saldoLocal < 200) alert('Saldo insuficiente!');
+            else location.href = 'saque-pix.html';
         }
     </script>
 </body>
