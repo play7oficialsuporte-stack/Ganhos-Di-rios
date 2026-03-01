@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel | Play7</title>
     <link rel="preload" as="image" href="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png">
-    
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -15,12 +14,13 @@
         .user-info { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
         .user-id { font-size: 0.7rem; color: #b0b3b8; }
         .balance-box { margin-top: 80px; padding: 20px; }
-        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
+        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; transition: 0.3s; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
         .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:disabled { background: #2d313d; color: #888; cursor: not-allowed; }
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; text-align: center; }
         .ad-container { margin: 20px 0; text-align: center; }
@@ -28,47 +28,49 @@
 </head>
 <body>
 
+    <audio id="som-sucesso" src="https://www.soundjay.com/buttons/sounds/button-37a.mp3" preload="auto"></audio>
+
     <div class="header">
         <div class="user-info" id="user-display">Usuário: ...</div>
         <div class="user-id" id="id-display">ID: #000000</div>
     </div>
 
     <div class="balance-box">
-        <div class="card">
+        <div class="card" id="main-card">
             <small>SEU SALDO ATUAL</small>
-            <div class="balance-val" id="saldo">R$ 10,00</div>
+            <div class="balance-val" id="saldo">R$ 0,00</div>
             <small style="color:var(--accent)">Mínimo para saque: R$ 200,00</small>
-            
             <img src="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png" class="promo-banner" alt="Promoção">
         </div>
     </div>
 
     <div class="task-list">
         <h3>Missões Disponíveis 🔥</h3>
+        
         <div class="task">
             <div><strong>#01</strong><br><small>Ouvir Spotify</small></div>
             <div style="color:var(--primary)">+R$ 4,50</div>
-            <button class="btn" onclick="executarMissao('http://spotify.com', 4.50)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://spotify.com', 4.50, 10000)">INICIAR</button>
         </div>
         <div class="task">
             <div><strong>#02</strong><br><small>Seguir Instagram</small></div>
             <div style="color:var(--primary)">+R$ 3,00</div>
-            <button class="btn" onclick="executarMissao('http://instagram.com', 3.00)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://instagram.com', 3.00, 5000)">INICIAR</button>
         </div>
         <div class="task">
             <div><strong>#03</strong><br><small>Avaliar App</small></div>
             <div style="color:var(--primary)">+R$ 5,00</div>
-            <button class="btn" onclick="executarMissao('http://google.com', 5.00)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 5.00, 7000)">INICIAR</button>
         </div>
         <div class="task">
             <div><strong>#04</strong><br><small>Assistir Vídeo</small></div>
             <div style="color:var(--primary)">+R$ 2,50</div>
-            <button class="btn" onclick="executarMissao('http://youtube.com', 2.50)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://youtube.com', 2.50, 5000)">INICIAR</button>
         </div>
         <div class="task">
             <div><strong>#05</strong><br><small>Validar Cadastro</small></div>
             <div style="color:var(--primary)">+R$ 6,00</div>
-            <button class="btn" onclick="executarMissao('http://google.com', 6.00)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 6.00, 8000)">INICIAR</button>
         </div>
 
         <div class="ad-container">
@@ -88,25 +90,75 @@
         const firebaseConfig = { apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y", authDomain: "play7oficial-c9243.firebaseapp.com", projectId: "play7oficial-c9243", storageBucket: "play7oficial-c9243.firebasestorage.app", messagingSenderId: "234372671693", appId: "1:234372671693:web:dae3f8ab7b7952206778f9" };
         firebase.initializeApp(firebaseConfig);
         
+        // --- LÓGICA DE DADOS INICIAIS ---
         const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
-        const bônus = parseFloat(localStorage.getItem('saldo_inicial')) || 0;
-        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || bônus;
+        const bonusInicial = parseFloat(localStorage.getItem('saldo_inicial')) || 0;
+        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || bonusInicial;
 
         document.getElementById('user-display').innerText = "Usuário: " + nomeSalvo;
         document.getElementById('id-display').innerText = "ID: #" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
+        document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
 
-        function executarMissao(link, valor) {
+        // --- FUNÇÃO DE ANIMAÇÃO DO SALDO ---
+        function animarSaldo(valorFinal) {
+            const elemento = document.getElementById('saldo');
+            let valorExibido = parseFloat(elemento.innerText.replace('R$ ', '').replace(',', '.'));
+            const passos = 20;
+            const incremento = (valorFinal - valorExibido) / passos;
+            let i = 0;
+
+            const intervalo = setInterval(() => {
+                valorExibido += incremento;
+                elemento.innerText = `R$ ${valorExibido.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                i++;
+                if (i >= passos) {
+                    elemento.innerText = `R$ ${valorFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    clearInterval(intervalo);
+                }
+            }, 50);
+        }
+
+        // --- FUNÇÃO EXECUTAR MISSÃO ---
+        function executarMissao(btn, link, valor, tempo) {
+            // Abre os anúncios/links
             window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
             window.open(link, '_blank'); 
-            saldoLocal += valor;
-            localStorage.setItem('saldo_atual', saldoLocal);
-            document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
-            alert('Missão registrada!');
+
+            // Estágio de Validação
+            btn.disabled = true;
+            btn.innerText = "VALIDANDO...";
+            btn.style.background = "var(--accent)";
+
+            setTimeout(() => {
+                // Toca o som
+                const som = document.getElementById('som-sucesso');
+                som.currentTime = 0;
+                som.play();
+
+                // Atualiza Saldo com Animação
+                const novoSaldo = saldoLocal + valor;
+                animarSaldo(novoSaldo);
+                saldoLocal = novoSaldo;
+                localStorage.setItem('saldo_atual', saldoLocal);
+
+                // Finaliza Botão
+                btn.innerText = "CONCLUÍDO ✅";
+                btn.style.background = "#2d313d";
+
+                // Pisca o card de saldo
+                const card = document.getElementById('main-card');
+                card.style.borderColor = "var(--primary)";
+                card.style.boxShadow = "0 0 15px rgba(0, 230, 118, 0.3)";
+                setTimeout(() => {
+                    card.style.borderColor = "var(--border)";
+                    card.style.boxShadow = "none";
+                }, 1000);
+
+            }, tempo); // Tempo definido em milissegundos
         }
 
         function tentarSaque() {
-            if(saldoLocal < 200) alert('Saldo insuficiente!');
+            if(saldoLocal < 200) alert('Saldo insuficiente para saque!');
             else location.href = 'saque-pix.html';
         }
     </script>
