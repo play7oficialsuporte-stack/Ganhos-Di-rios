@@ -3,45 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso | Plataforma</title>
+    <title>Acesso | Play7</title>
     <style>
-        :root { --bg: #0a0c12; --card: #171a26; --primary: #00e676; --text: #ffffff; --border: #2d313d; }
+        :root { --bg: #0a0c12; --card: #171a26; --primary: #00e676; --text: #ffffff; --border: #2d313d; --accent: #ff9100; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .login-card { background: var(--card); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 380px; text-align: center; }
-        .logo { width: 120px; margin-bottom: 20px; }
+        .login-card { background: var(--card); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 380px; text-align: center; box-shadow: 0 0 20px rgba(0, 230, 118, 0.1); }
+        
+        /* Mensagem Chamativa */
+        .welcome-msg { color: var(--primary); font-size: 1.4rem; font-weight: 800; line-height: 1.3; margin-bottom: 25px; }
+        .highlight { color: var(--accent); }
+
         .input-group { text-align: left; margin-bottom: 15px; }
         label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-        input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: #0f111a; color: #fff; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--primary); }
-        .btn { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: #0f111a; color: #fff; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 230, 118, 0.2); }
+        
+        /* Botão Novo */
+        .btn { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; }
+        .btn:hover { background: #00c866; transform: scale(1.02); }
+        .bonus-tag { display: block; font-size: 0.7rem; color: var(--accent); margin-top: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <img src="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png" class="logo">
-        <h2 style="margin-top:0">Entrar</h2>
+        <div class="welcome-msg">
+            Bem-vindo à <span class="highlight">Play7</span><br>
+            O melhor site de missões do Brasil! 🇧🇷
+        </div>
+
         <div class="input-group">
-            <label>Seu Nome</label>
-            <input type="text" id="nome" placeholder="Digite seu nome...">
+            <label>Seu Nome Completo</label>
+            <input type="text" id="nome" placeholder="Ex: João Silva">
         </div>
         <div class="input-group">
-            <label>E-mail Acadêmico/Pessoal</label>
+            <label>Seu Melhor E-mail</label>
             <input type="email" id="email" placeholder="exemplo@email.com">
         </div>
-        <button class="btn" onclick="acessar()">ENTRAR NA PLATAFORMA</button>
+
+        <button class="btn" onclick="acessar()">Ganhe R$ 10 Reais Agora</button>
+        <span class="bonus-tag">⚠️ Promoção por tempo limitado para novos usuários!</span>
     </div>
 
     <script>
         function acessar() {
             const nome = document.getElementById('nome').value;
             const email = document.getElementById('email').value;
+            
             if(nome && email) {
-                // Salva apenas o nome para usar no painel
+                // SALVA O NOME E O BÔNUS INICIAL
                 localStorage.setItem('user_name', nome);
+                localStorage.setItem('saldo_inicial', '10.00'); // Dá os 10 reais
+                
                 location.href = 'index.html'; 
             } else {
-                alert('Preencha os campos para validar seu acesso.');
+                alert('Preencha os campos para resgatar seus R$ 10,00!');
             }
         }
     </script>
