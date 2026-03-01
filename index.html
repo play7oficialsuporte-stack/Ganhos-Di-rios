@@ -28,8 +28,6 @@
 </head>
 <body>
 
-    <audio id="som-sucesso" src="https://www.soundjay.com/buttons/sounds/button-37a.mp3" preload="auto"></audio>
-
     <div class="header">
         <div class="user-info" id="user-display">Usuário: ...</div>
         <div class="user-id" id="id-display">ID: #000000</div>
@@ -101,7 +99,7 @@
         function animarSaldo(valorFinal) {
             const elemento = document.getElementById('saldo');
             let valorExibido = parseFloat(elemento.innerText.replace('R$ ', '').replace(',', '.'));
-            const passos = 25;
+            const passos = 20;
             const incremento = (valorFinal - valorExibido) / passos;
             let i = 0;
             const intervalo = setInterval(() => {
@@ -112,16 +110,11 @@
                     elemento.innerText = `R$ ${valorFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     clearInterval(intervalo);
                 }
-            }, 40);
+            }, 50);
         }
 
         function executarMissao(btn, link, valor, tempo) {
-            const som = document.getElementById('som-sucesso');
-            
-            // "Acorda" o áudio no toque para evitar bloqueio do navegador
-            som.play().then(() => { som.pause(); som.currentTime = 0; }).catch(() => {});
-
-            // Abre o anúncio. Se o navegador bloquear, ele pedirá permissão uma única vez.
+            // Abre o anúncio imediatamente (único pop-up permitido pelo clique)
             window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
             
             btn.disabled = true;
@@ -129,9 +122,7 @@
             btn.style.background = "var(--accent)";
 
             setTimeout(() => {
-                // Toca o som após a validação
-                som.play();
-
+                // Atualiza Saldo com Animação Visual
                 const novoSaldo = saldoLocal + valor;
                 animarSaldo(novoSaldo);
                 saldoLocal = novoSaldo;
@@ -140,11 +131,12 @@
                 btn.innerText = "CONCLUÍDO ✅";
                 btn.style.background = "#2d313d";
 
+                // Feedback visual no card de saldo
                 const card = document.getElementById('main-card');
                 card.style.borderColor = "var(--primary)";
                 setTimeout(() => card.style.borderColor = "var(--border)", 1000);
 
-                // Abre o link da missão depois de validar
+                // Abre a tarefa real após o tempo de validação
                 window.open(link, '_blank');
             }, tempo);
         }
