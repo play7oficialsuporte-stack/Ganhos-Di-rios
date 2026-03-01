@@ -3,49 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play7 Oficial - Ganhe por Missão</title>
+    <title>Play7 Oficial | Ganhos Diários</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        body { background: #0b0e11; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
-        .card { background: #1c1f26; border-radius: 15px; padding: 20px; border-left: 5px solid #00d2ff; margin-bottom: 20px; }
-        .saldo { font-size: 2em; color: #00d2ff; font-weight: bold; }
-        .btn { background: #00d2ff; color: #000; padding: 15px; border: none; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
-        .btn-saque { background: #444; color: #888; margin-top: 10px; cursor: not-allowed; }
-        .btn-saque.ativo { background: #28a745; color: #fff; cursor: pointer; }
-        .missao-box { background: #2a2e35; padding: 15px; border-radius: 10px; margin-top: 10px; text-align: left; }
-        #ad-container { margin: 20px 0; min-height: 100px; }
+        :root {
+            --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676;
+            --accent: #ff9100; --text: #ffffff; --border: #2d313d;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; }
+        .header { background: rgba(23,26,38,0.9); padding: 15px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); text-align: center; }
+        .balance-box { margin-top: 80px; padding: 20px; }
+        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
+        .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
+        .task-list { padding: 0 20px; }
+        .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; text-align: center; }
+        #ad-nativo { margin: 20px; text-align: center; min-height: 100px; border: 1px dashed var(--border); border-radius: 12px; padding: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <p>Seu Saldo Atual</p>
-        <div class="saldo">R$ <span id="val-saldo">0.00</span></div>
-        <p style="font-size: 0.8em; color: #aaa;">Mínimo para saque: R$ 200,00</p>
-        <button id="btnSaque" class="btn btn-saque">SOLICITAR SAQUE PIX</button>
-    </div>
+    <div class="header"><strong>Play7 Oficial</strong></div>
 
-    <div class="card" style="border-left-color: #f39c12;">
-        <h3>Sistema de Indicações</h3>
-        <p>Ganhe R$ 5,00 por cada amigo (Máx. 10)</p>
-        <button class="btn" onclick="alert('Link copiado!')">COPIAR LINK DE INDICADO</button>
-    </div>
-
-    <div id="lista-missoes">
-        <div class="missao-box">
-            <h4>Missão 1: Assistir Anúncio Premiado</h4>
-            <button class="btn" onclick="completarMissao(1, 2.50)">EXECUTAR MISSÃO</button>
+    <div class="balance-box">
+        <div class="card">
+            <small>SEU SALDO ATUAL</small>
+            <div class="balance-val" id="saldo">R$ 0,00</div>
+            <small style="color:var(--accent)">Mínimo para saque: R$ 200,00</small>
         </div>
     </div>
 
-    <div id="ad-container">
+    <div id="ad-nativo">
         <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
         <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
     </div>
 
+    <div class="task-list" id="lista-missoes">
+        <h3>Missões Disponíveis 🔥</h3>
+        <div class="task">
+            <div><strong>Missão #01</strong><br><small>Ouvir no Spotify</small></div>
+            <div style="color:var(--primary)">+R$ 4,50</div>
+            <button class="btn" onclick="executarMissao('https://open.spotify.com', 4.50)">INICIAR</button>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="#" style="color:var(--primary)">Missões</a>
+        <a href="indicar.html">Indicar (R$ 5)</a>
+        <a href="suporte.html">Suporte</a>
+        <a href="#" onclick="tentarSaque()">Sacar</a>
+    </div>
+
     <script>
-        // Suas chaves do Firebase extraídas da imagem
+        // Configuração Firebase extraída da sua imagem
         const firebaseConfig = {
             apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
             authDomain: "play7oficial-c9243.firebaseapp.com",
@@ -57,23 +70,32 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        let saldoAtual = 0;
-        let missoesContador = 0;
+        let saldoLocal = 0;
+        let contadorAds = 0;
 
-        function completarMissao(id, valor) {
-            saldoAtual += valor;
-            missoesContador++;
-            document.getElementById('val-saldo').innerText = saldoAtual.toFixed(2);
+        function executarMissao(linkMissao, valor) {
+            // Clique Triplo para Lucro Máximo
+            window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); // Ads Adulto
+            window.open(linkMissao, '_blank'); // Link da Missão (Spotify, etc)
             
-            if(saldoAtual >= 200) {
-                document.getElementById('btnSaque').classList.add('ativo');
-                document.getElementById('btnSaque').disabled = false;
-            }
+            saldoLocal += valor;
+            contadorAds++;
+            document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2)}`;
+            
+            alert('Missão registrada! Continue para validar.');
 
-            // Lógica de anúncio a cada 5 missões
-            if(missoesContador % 5 === 0) {
-                alert("Anúncio obrigatório para validar saldo!");
-                window.location.reload(); // Recarrega para forçar o Adsterra
+            // A cada 5 missões, força o anúncio nativo recarregando
+            if(contadorAds % 5 === 0) {
+                alert("Validando seu progresso com parceiros...");
+                location.reload();
+            }
+        }
+
+        function tentarSaque() {
+            if(saldoLocal < 200) {
+                alert('Saldo insuficiente! Continue as missões para atingir R$ 200,00.');
+            } else {
+                location.href = 'saque-pix.html';
             }
         }
     </script>
