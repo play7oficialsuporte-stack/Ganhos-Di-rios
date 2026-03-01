@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso | Plataforma</title>
+    <style>
+        :root { --bg: #0a0c12; --card: #171a26; --primary: #00e676; --text: #ffffff; --border: #2d313d; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .login-card { background: var(--card); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 380px; text-align: center; }
+        .logo { width: 120px; margin-bottom: 20px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: #0f111a; color: #fff; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--primary); }
+        .btn { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <img src="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png" class="logo">
+        <h2 style="margin-top:0">Entrar</h2>
+        <div class="input-group">
+            <label>Seu Nome</label>
+            <input type="text" id="nome" placeholder="Digite seu nome...">
+        </div>
+        <div class="input-group">
+            <label>E-mail Acadêmico/Pessoal</label>
+            <input type="email" id="email" placeholder="exemplo@email.com">
+        </div>
+        <button class="btn" onclick="acessar()">ENTRAR NA PLATAFORMA</button>
+    </div>
+
+    <script>
+        function acessar() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            if(nome && email) {
+                // Salva apenas o nome para usar no painel
+                localStorage.setItem('user_name', nome);
+                location.href = 'index.html'; 
+            } else {
+                alert('Preencha os campos para validar seu acesso.');
+            }
+        }
+    </script>
+</body>
+</html>
