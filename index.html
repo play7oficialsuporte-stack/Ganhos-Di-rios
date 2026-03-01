@@ -3,61 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play7 Oficial | Ganhos Diários</title>
+    <title>Play7 Oficial - Ganhe por Missão</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        :root {
-            --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676;
-            --accent: #ff9100; --text: #ffffff; --border: #2d313d;
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 80px; }
-        .header { background: rgba(23,26,38,0.9); padding: 15px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); }
-        .balance-box { margin-top: 80px; padding: 20px; }
-        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
-        .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
-        .task-list { padding: 0 20px; }
-        .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); }
-        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; }
+        body { background: #0b0e11; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .card { background: #1c1f26; border-radius: 15px; padding: 20px; border-left: 5px solid #00d2ff; margin-bottom: 20px; }
+        .saldo { font-size: 2em; color: #00d2ff; font-weight: bold; }
+        .btn { background: #00d2ff; color: #000; padding: 15px; border: none; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        .btn-saque { background: #444; color: #888; margin-top: 10px; cursor: not-allowed; }
+        .btn-saque.ativo { background: #28a745; color: #fff; cursor: pointer; }
+        .missao-box { background: #2a2e35; padding: 15px; border-radius: 10px; margin-top: 10px; text-align: left; }
+        #ad-container { margin: 20px 0; min-height: 100px; }
     </style>
 </head>
 <body>
 
-    <div class="header"><strong>Play7 Oficial</strong></div>
+    <div class="card">
+        <p>Seu Saldo Atual</p>
+        <div class="saldo">R$ <span id="val-saldo">0.00</span></div>
+        <p style="font-size: 0.8em; color: #aaa;">Mínimo para saque: R$ 200,00</p>
+        <button id="btnSaque" class="btn btn-saque">SOLICITAR SAQUE PIX</button>
+    </div>
 
-    <div class="balance-box">
-        <div class="card">
-            <small>SEU SALDO ATUAL</small>
-            <div class="balance-val" id="saldo">R$ 0,00</div>
-            <small style="color:var(--accent)">Mínimo para saque: R$ 200,00</small>
+    <div class="card" style="border-left-color: #f39c12;">
+        <h3>Sistema de Indicações</h3>
+        <p>Ganhe R$ 5,00 por cada amigo (Máx. 10)</p>
+        <button class="btn" onclick="alert('Link copiado!')">COPIAR LINK DE INDICADO</button>
+    </div>
+
+    <div id="lista-missoes">
+        <div class="missao-box">
+            <h4>Missão 1: Assistir Anúncio Premiado</h4>
+            <button class="btn" onclick="completarMissao(1, 2.50)">EXECUTAR MISSÃO</button>
         </div>
     </div>
 
-    <div class="task-list">
-        <h3>Missões de Alta Recompensa 🔥</h3>
-        <div class="task">
-            <div><strong>Missão #01</strong><br><small>Validar Conta (Ads)</small></div>
-            <div style="color:var(--primary)">+R$ 2,50</div>
-            <button class="btn" onclick="cliqueTriplo('https://meu-adsterra.com', 'missao2.html')">INICIAR</button>
-        </div>
-        </div>
-
-    <div class="nav">
-        <a href="#" style="color:var(--primary)">Missões</a>
-        <a href="indicar.html">Indicar (R$ 5)</a>
-        <a href="suporte.html">Suporte</a>
-        <a href="#" onclick="alert('Saldo insuficiente para saque!')">Sacar</a>
+    <div id="ad-container">
+        <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
+        <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
     </div>
 
     <script>
-        function cliqueTriplo(adLink, proxima) {
-            // Aba 1: Adsterra Adulto para Lucro
-            window.open(adLink, '_blank');
-            // Aba 2: Outro Ad ou YouTube
-            window.open('https://youtube.com/c/seu_canal', '_blank');
-            // Aba 3: Próxima página ou atualização de saldo
-            alert('Missão iniciada! Não feche as abas de anúncio para validar seu saldo.');
-            location.href = proxima;
+        // Suas chaves do Firebase extraídas da imagem
+        const firebaseConfig = {
+            apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
+            authDomain: "play7oficial-c9243.firebaseapp.com",
+            projectId: "play7oficial-c9243",
+            storageBucket: "play7oficial-c9243.firebasestorage.app",
+            messagingSenderId: "234372671693",
+            appId: "1:234372671693:web:dae3f8ab7b7952206778f9"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        let saldoAtual = 0;
+        let missoesContador = 0;
+
+        function completarMissao(id, valor) {
+            saldoAtual += valor;
+            missoesContador++;
+            document.getElementById('val-saldo').innerText = saldoAtual.toFixed(2);
+            
+            if(saldoAtual >= 200) {
+                document.getElementById('btnSaque').classList.add('ativo');
+                document.getElementById('btnSaque').disabled = false;
+            }
+
+            // Lógica de anúncio a cada 5 missões
+            if(missoesContador % 5 === 0) {
+                alert("Anúncio obrigatório para validar saldo!");
+                window.location.reload(); // Recarrega para forçar o Adsterra
+            }
         }
     </script>
 </body>
