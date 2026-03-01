@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Ganhos</title>
+    
+    <link rel="preload" as="image" href="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png">
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -13,7 +16,6 @@
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; }
         
-        /* Header Customizado */
         .header { 
             background: rgba(23,26,38,0.9); 
             padding: 15px 20px; 
@@ -30,8 +32,8 @@
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
         
-        /* Banner abaixo do saldo */
-        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
+        /* Banner otimizado */
+        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); display: block; }
 
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
@@ -68,32 +70,7 @@
             <div style="color:var(--primary)">+R$ 4,50</div>
             <button class="btn" onclick="executarMissao('http://spotify.com', 4.50)">INICIAR</button>
         </div>
-        <div class="task">
-            <div><strong>Missão #02</strong><br><small>Seguir no Instagram</small></div>
-            <div style="color:var(--primary)">+R$ 3,00</div>
-            <button class="btn" onclick="executarMissao('http://instagram.com', 3.00)">INICIAR</button>
         </div>
-        <div class="task">
-            <div><strong>Missão #03</strong><br><small>Avaliar App na PlayStore</small></div>
-            <div style="color:var(--primary)">+R$ 5,00</div>
-            <button class="btn" onclick="executarMissao('http://google.com', 5.00)">INICIAR</button>
-        </div>
-        <div class="task">
-            <div><strong>Missão #04</strong><br><small>Assistir Vídeo Curto</small></div>
-            <div style="color:var(--primary)">+R$ 2,50</div>
-            <button class="btn" onclick="executarMissao('http://youtube.com', 2.50)">INICIAR</button>
-        </div>
-        <div class="task">
-            <div><strong>Missão #05</strong><br><small>Validar Cadastro Ads</small></div>
-            <div style="color:var(--primary)">+R$ 6,00</div>
-            <button class="btn" onclick="executarMissao('http://google.com', 6.00)">INICIAR</button>
-        </div>
-
-        <div class="ad-container">
-            <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
-            <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
-        </div>
-    </div>
 
     <div class="nav">
         <a href="#" style="color:var(--primary)">Missões</a>
@@ -103,7 +80,7 @@
     </div>
 
     <script>
-        // Configuração Firebase
+        // Suas chaves do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
             authDomain: "play7oficial-c9243.firebaseapp.com",
@@ -116,10 +93,10 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // Simulação de Identificação Única
+        // Mantendo o Usuário Convidado
         const userId = "USR" + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('id-display').innerText = "ID: #" + userId;
-        document.getElementById('user-display').innerText = "Usuário: Convidado_" + userId.slice(-3);
+        document.getElementById('user-display').innerText = "Usuário: Convidado_971";
 
         let saldoLocal = 0;
 
