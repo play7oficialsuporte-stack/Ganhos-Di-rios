@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitar Saque | Play7</title>
+    <title>Resgatar Saldo | Play7</title>
     <style>
-        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
+        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; --error: #ff5252; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
         
-        .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 10; }
+        .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); }
         .container { width: 90%; max-width: 400px; margin-top: 25px; }
         
-        /* Card de Progresso */
+        /* Card de Status */
         .card-status { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; }
-        .progress-container { background: #0a0c12; height: 12px; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 1px solid var(--border); }
-        .progress-bar { background: linear-gradient(90deg, #00e676, #00c866); height: 100%; width: 5%; transition: 1s ease-in-out; }
+        .progress-container { background: #0a0c12; height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 1px solid var(--border); }
+        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1); box-shadow: 0 0 10px var(--primary); }
         
-        /* Formulário PIX */
-        .pix-form { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        select, input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: #0a0c12; color: #fff; box-sizing: border-box; outline: none; font-size: 1rem; }
+        /* Formulário */
+        .pix-form { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; position: relative; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 8px; }
+        select, input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: #0a0c12; color: #fff; box-sizing: border-box; font-size: 1rem; }
         
-        .btn-saque { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s; }
-        .btn-saque:disabled { background: #2d313d; color: #666; cursor: not-allowed; }
+        .btn-saque { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
 
-        .security-note { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.7rem; color: #666; justify-content: center; }
+        /* MODAL DE ERRO/AVISO */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-card { width: 85%; max-width: 350px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; text-align: center; animation: popUp 0.3s ease-out; }
+        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .icon-warn { font-size: 40px; color: var(--accent); margin-bottom: 15px; }
+        .modal-title { font-weight: 800; font-size: 1.2rem; margin-bottom: 10px; color: #fff; }
+        .modal-text { font-size: 0.9rem; color: #b0b3b8; line-height: 1.5; margin-bottom: 20px; }
+        .btn-modal { background: #2d313d; color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; }
 
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; }
@@ -34,45 +41,54 @@
 <body>
 
     <div class="header-simple">
-        <strong style="color:var(--primary)">RESGATAR VIA PIX</strong>
+        <strong style="color:var(--primary)">ÁREA DE PAGAMENTO</strong>
     </div>
 
     <div class="container">
         <div class="card-status">
-            <small style="color:#888">Progresso para o Saque Mínimo</small>
+            <small style="color:#888">SEU PROGRESSO</small>
             <div class="progress-container">
-                <div class="progress-bar" id="barra-progresso"></div>
+                <div class="progress-bar" id="barra"></div>
             </div>
-            <div style="display:flex; justify-content: space-between; font-size: 0.8rem; font-weight: bold;">
-                <span id="saldo-atual">R$ 0,00</span>
-                <span style="color:var(--primary)">R$ 200,00</span>
+            <div style="display:flex; justify-content: space-between; font-size: 0.8rem;">
+                <span id="saldo-txt" style="font-weight:bold">R$ 0,00</span>
+                <span style="color:var(--primary)">Meta: R$ 200,00</span>
             </div>
         </div>
 
         <div class="pix-form">
             <div class="input-group">
+                <label>Método de Recebimento</label>
+                <select>
+                    <option>PIX (Instante)</option>
+                </select>
+            </div>
+            <div class="input-group">
                 <label>Tipo de Chave</label>
-                <select id="tipo-chave">
-                    <option value="cpf">CPF</option>
-                    <option value="email">E-mail</option>
-                    <option value="tel">Telefone</option>
-                    <option value="aleatoria">Chave Aleatória</option>
+                <select id="tipo">
+                    <option>CPF</option>
+                    <option>E-mail</option>
+                    <option>Celular</option>
+                    <option>Chave Aleatória</option>
                 </select>
             </div>
             <div class="input-group">
                 <label>Sua Chave PIX</label>
-                <input type="text" id="chave-pix" placeholder="Digite sua chave aqui">
+                <input type="text" id="chave" placeholder="Insira sua chave aqui">
             </div>
-            <div class="input-group">
-                <label>Valor do Saque</label>
-                <input type="text" id="valor-saque" value="R$ 200,00" disabled>
-            </div>
+            <button class="btn-saque" onclick="verificarSaque()">SOLICITAR SAQUE</button>
+        </div>
+    </div>
 
-            <button class="btn-saque" id="btn-final" onclick="processarSaque()">Solicitar Saque Agora</button>
-            
-            <div class="security-note">
-                🔒 Pagamento processado via Protocolo Seguro SSL.
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+            <div class="icon-warn">⚠️</div>
+            <div class="modal-title">Saldo Insuficiente</div>
+            <div class="modal-text">
+                Você ainda não atingiu o valor mínimo de <b>R$ 200,00</b> para realizar o saque. <br><br>
+                Continue realizando as missões e indicando amigos para liberar seu pagamento!
             </div>
+            <button class="btn-modal" onclick="fecharModal()">ENTENDI, VOU CONTINUAR</button>
         </div>
     </div>
 
@@ -84,33 +100,36 @@
     </div>
 
     <script>
-        // Recupera o saldo real do usuário
-        const saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || parseFloat(localStorage.getItem('saldo_inicial')) || 0;
+        const saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || 0;
         const meta = 200;
-        
-        // Atualiza a interface
-        document.getElementById('saldo-atual').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
-        
-        // Calcula a porcentagem da barra (Mínimo 5% para não ficar vazia)
-        let porcentagem = (saldoLocal / meta) * 100;
-        if (porcentagem > 100) porcentagem = 100;
-        if (porcentagem < 5) porcentagem = 5;
-        document.getElementById('barra-progresso').style.width = porcentagem + "%";
 
-        function processarSaque() {
-            const chave = document.getElementById('chave-pix').value;
-            
-            if (!chave) {
-                alert("Por favor, insira sua chave PIX!");
+        // Atualiza a interface visual
+        document.getElementById('saldo-txt').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
+        
+        // Anima a barra de progresso
+        setTimeout(() => {
+            let pct = (saldoLocal / meta) * 100;
+            if(pct > 100) pct = 100;
+            document.getElementById('barra').style.width = (pct < 5 ? 5 : pct) + "%";
+        }, 100);
+
+        function verificarSaque() {
+            const chave = document.getElementById('chave').value;
+            if(!chave) {
+                alert("Por favor, preencha sua chave PIX.");
                 return;
             }
 
-            if (saldoLocal < meta) {
-                alert(`Saldo Insuficiente! Você tem R$ ${saldoLocal.toFixed(2).replace('.', ',')} e precisa de R$ 200,00.`);
+            if(saldoLocal < meta) {
+                // Abre o modal elegante em vez do alert
+                document.getElementById('modal').style.display = 'flex';
             } else {
-                // Aqui você pode redirecionar para uma página de "Taxa de Liberação" ou "Sucesso Pendente"
-                alert("Solicitação enviada! Devido à alta demanda, saques podem levar até 24h.");
+                alert("Sucesso! Aguarde o processamento.");
             }
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').style.display = 'none';
         }
     </script>
 </body>
