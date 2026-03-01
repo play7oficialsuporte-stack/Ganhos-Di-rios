@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte | Play7</title>
+    <style>
+        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
+        
+        .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+        .container { width: 90%; max-width: 400px; margin-top: 25px; }
+        
+        .support-card { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; }
+        .status-online { display: inline-block; padding: 5px 12px; background: rgba(0, 230, 118, 0.1); color: var(--primary); border-radius: 50px; font-size: 0.7rem; font-weight: bold; margin-bottom: 15px; }
+        
+        .faq-item { background: #0a0c12; border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 10px; text-align: left; cursor: pointer; }
+        .faq-question { font-size: 0.85rem; font-weight: bold; color: var(--primary); display: block; margin-bottom: 5px; }
+        .faq-answer { font-size: 0.8rem; color: #888; line-height: 1.4; display: none; }
+
+        .btn-whatsapp { background: #25d366; color: #fff; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; box-sizing: border-box; }
+        
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); }
+        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header-simple">
+        <strong style="color:var(--primary)">CENTRAL DE AJUDA</strong>
+    </div>
+
+    <div class="container">
+        <div class="support-card">
+            <div class="status-online">● ATENDIMENTO ONLINE</div>
+            <h2>Como podemos ajudar?</h2>
+            <p style="font-size: 0.85rem; color: #b0b3b8;">Nosso tempo médio de resposta é de 15 minutos via WhatsApp.</p>
+
+            <div style="margin-top: 25px;">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <span class="faq-question">Qual o mínimo de saque?</span>
+                    <span class="faq-answer">O valor mínimo para resgate via PIX é de R$ 200,00 para garantir a sustentabilidade da plataforma.</span>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <span class="faq-question">Quanto tempo demora o PIX?</span>
+                    <span class="faq-answer">Após atingir o mínimo, o pagamento é processado em até 24 horas úteis.</span>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <span class="faq-question">Meus amigos não contabilizaram?</span>
+                    <span class="faq-answer">Certifique-se de que eles usaram seu link e completaram pelo menos 1 missão.</span>
+                </div>
+            </div>
+
+            <a href="https://wa.me/SEU_NUMERO_AQUI" class="btn-whatsapp" target="_blank">
+                Falar com Suporte (WhatsApp)
+            </a>
+            <small style="display:block; margin-top:10px; color:#666; font-size:0.7rem;">Segunda a Sexta: 09h às 18h</small>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="index.html">Missões</a>
+        <a href="indicar.html">Indicar</a>
+        <a href="#" style="color:var(--primary)">Suporte</a>
+        <a href="saque-pix.html">Sacar</a>
+    </div>
+
+    <script>
+        function toggleFaq(el) {
+            const answer = el.querySelector('.faq-answer');
+            answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
