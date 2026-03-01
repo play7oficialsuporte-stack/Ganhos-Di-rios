@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Ganhos</title>
-    
     <link rel="preload" as="image" href="https://i.ibb.co/BKvPQYkY/file-0000000085ac720eaa6f569cf3d931ac.png">
-
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -32,8 +30,7 @@
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
         
-        /* Banner otimizado */
-        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); display: block; }
+        .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
 
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
@@ -70,7 +67,18 @@
             <div style="color:var(--primary)">+R$ 4,50</div>
             <button class="btn" onclick="executarMissao('http://spotify.com', 4.50)">INICIAR</button>
         </div>
+        
+        <div class="task">
+            <div><strong>Missão #02</strong><br><small>Seguir no Instagram</small></div>
+            <div style="color:var(--primary)">+R$ 3,00</div>
+            <button class="btn" onclick="executarMissao('http://instagram.com', 3.00)">INICIAR</button>
         </div>
+
+        <div class="ad-container">
+            <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
+            <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
+        </div>
+    </div>
 
     <div class="nav">
         <a href="#" style="color:var(--primary)">Missões</a>
@@ -80,7 +88,7 @@
     </div>
 
     <script>
-        // Suas chaves do Firebase
+        // Configuração Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y",
             authDomain: "play7oficial-c9243.firebaseapp.com",
@@ -89,14 +97,15 @@
             messagingSenderId: "234372671693",
             appId: "1:234372671693:web:dae3f8ab7b7952206778f9"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // Mantendo o Usuário Convidado
-        const userId = "USR" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('id-display').innerText = "ID: #" + userId;
-        document.getElementById('user-display').innerText = "Usuário: Convidado_971";
+        // LÓGICA DE IDENTIFICAÇÃO (Puxando do Login)
+        const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
+        const idSalvo = localStorage.getItem('usuario_id') || Math.floor(100000 + Math.random() * 900000);
+        
+        document.getElementById('user-display').innerText = "Usuário: " + nomeSalvo;
+        document.getElementById('id-display').innerText = "ID: #" + idSalvo;
 
         let saldoLocal = 0;
 
