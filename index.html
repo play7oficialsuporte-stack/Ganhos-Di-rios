@@ -90,7 +90,6 @@
         const firebaseConfig = { apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y", authDomain: "play7oficial-c9243.firebaseapp.com", projectId: "play7oficial-c9243", storageBucket: "play7oficial-c9243.firebasestorage.app", messagingSenderId: "234372671693", appId: "1:234372671693:web:dae3f8ab7b7952206778f9" };
         firebase.initializeApp(firebaseConfig);
         
-        // --- LÓGICA DE DADOS INICIAIS ---
         const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
         const bonusInicial = parseFloat(localStorage.getItem('saldo_inicial')) || 0;
         let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || bonusInicial;
@@ -99,14 +98,12 @@
         document.getElementById('id-display').innerText = "ID: #" + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
 
-        // --- FUNÇÃO DE ANIMAÇÃO DO SALDO ---
         function animarSaldo(valorFinal) {
             const elemento = document.getElementById('saldo');
             let valorExibido = parseFloat(elemento.innerText.replace('R$ ', '').replace(',', '.'));
-            const passos = 20;
+            const passos = 25;
             const incremento = (valorFinal - valorExibido) / passos;
             let i = 0;
-
             const intervalo = setInterval(() => {
                 valorExibido += incremento;
                 elemento.innerText = `R$ ${valorExibido.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
@@ -115,46 +112,41 @@
                     elemento.innerText = `R$ ${valorFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     clearInterval(intervalo);
                 }
-            }, 50);
+            }, 40);
         }
 
-        // --- FUNÇÃO EXECUTAR MISSÃO ---
         function executarMissao(btn, link, valor, tempo) {
-            // Abre os anúncios/links
-            window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
-            window.open(link, '_blank'); 
+            const som = document.getElementById('som-sucesso');
+            
+            // "Acorda" o áudio no toque para evitar bloqueio do navegador
+            som.play().then(() => { som.pause(); som.currentTime = 0; }).catch(() => {});
 
-            // Estágio de Validação
+            // Abre o anúncio. Se o navegador bloquear, ele pedirá permissão uma única vez.
+            window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
+            
             btn.disabled = true;
             btn.innerText = "VALIDANDO...";
             btn.style.background = "var(--accent)";
 
             setTimeout(() => {
-                // Toca o som
-                const som = document.getElementById('som-sucesso');
-                som.currentTime = 0;
+                // Toca o som após a validação
                 som.play();
 
-                // Atualiza Saldo com Animação
                 const novoSaldo = saldoLocal + valor;
                 animarSaldo(novoSaldo);
                 saldoLocal = novoSaldo;
                 localStorage.setItem('saldo_atual', saldoLocal);
 
-                // Finaliza Botão
                 btn.innerText = "CONCLUÍDO ✅";
                 btn.style.background = "#2d313d";
 
-                // Pisca o card de saldo
                 const card = document.getElementById('main-card');
                 card.style.borderColor = "var(--primary)";
-                card.style.boxShadow = "0 0 15px rgba(0, 230, 118, 0.3)";
-                setTimeout(() => {
-                    card.style.borderColor = "var(--border)";
-                    card.style.boxShadow = "none";
-                }, 1000);
+                setTimeout(() => card.style.borderColor = "var(--border)", 1000);
 
-            }, tempo); // Tempo definido em milissegundos
+                // Abre o link da missão depois de validar
+                window.open(link, '_blank');
+            }, tempo);
         }
 
         function tentarSaque() {
