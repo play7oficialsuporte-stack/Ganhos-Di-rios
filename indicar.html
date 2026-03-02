@@ -2,121 +2,72 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Indique e Ganhe | Play7</title>
     <style>
+        * { box-sizing: border-box; } /* CORREÇÃO: Impede o scroll lateral */
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; width: 100%; }
         
         .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 10; }
-        .container { width: 90%; max-width: 400px; margin-top: 20px; }
+        .container { width: 95%; max-width: 400px; margin-top: 20px; padding: 0 10px; }
         
         .card-refer { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; text-align: center; }
         .reward-badge { background: rgba(255, 145, 0, 0.1); color: var(--accent); padding: 8px 15px; border-radius: 50px; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
         
-        .link-box { background: #0a0c12; border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; margin: 20px 0; cursor: pointer; transition: 0.3s; }
-        .link-box:active { transform: scale(0.98); background: #121520; }
+        .link-box { background: #0a0c12; border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; margin: 20px 0; cursor: pointer; }
         .link-text { font-size: 0.75rem; color: var(--primary); word-break: break-all; font-family: monospace; }
         
         .btn-copy { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 
-        /* Lista de Indicados */
         .referral-section { margin-top: 30px; width: 100%; }
-        .section-title { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+        .section-title { font-size: 0.9rem; color: #888; text-transform: uppercase; margin-bottom: 15px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
         
         .ref-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
         .ref-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); }
-        .ref-item:last-child { border-bottom: none; }
-        .ref-info { display: flex; align-items: center; gap: 12px; }
-        .ref-avatar { width: 35px; height: 35px; background: #2d313d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); font-size: 0.8rem; }
-        .ref-name { font-size: 0.85rem; font-weight: 600; }
         .ref-status { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
 
-        .limit-info { background: rgba(0, 230, 118, 0.05); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: 10px; padding: 10px; margin-top: 15px; font-size: 0.75rem; color: #b0b3b8; line-height: 1.4; }
-
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); }
-        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; }
+        /* NAV COM ÍCONES */
+        .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav a span { font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-    <div class="header-simple">
-        <strong style="color:var(--primary)">INDICAR AMIGOS</strong>
-    </div>
+    <div class="header-simple"><strong style="color:var(--primary)">INDICAR AMIGOS</strong></div>
 
     <div class="container">
         <div class="card-refer">
             <div class="reward-badge">🔥 BÔNUS DE LANÇAMENTO</div>
-            <h2 style="margin:5px 0;">Ganhe R$ 5,00 por Indicação</h2>
-            <p style="font-size: 0.85rem; color: #b0b3b8;">Seu amigo ganha <b>R$ 10,00</b> ao entrar e você ganha <b>R$ 5,00</b> por cada um dos seus primeiros 10 indicados!</p>
-
-            <div class="link-box" onclick="copiarLink()">
-                <div class="link-text" id="meu-link">Carregando link...</div>
-            </div>
-
+            <h2 style="margin:5px 0; font-size: 1.3rem;">Ganhe R$ 5,00 por Indicação</h2>
+            <p style="font-size: 0.8rem; color: #b0b3b8;">Amigo ganha <b>R$ 10,00</b> e você ganha <b>R$ 5,00</b>!</p>
+            <div class="link-box" onclick="copiarLink()"><div class="link-text" id="meu-link">Carregando...</div></div>
             <button class="btn-copy" onclick="copiarLink()">Copiar meu Link</button>
-            
-            <div class="limit-info">
-                ⚠️ Você já usou <b><span id="count-ref">3</span>/10</b> bônus de indicação disponíveis para sua conta.
-            </div>
         </div>
 
         <div class="referral-section">
             <span class="section-title">Indicados Recentes</span>
             <div class="ref-list">
-                <div class="ref-item">
-                    <div class="ref-info">
-                        <div class="ref-avatar">M</div>
-                        <div>
-                            <span class="ref-name">Marcos Oliveira</span><br>
-                            <small style="color:#666">Entrou há 2 horas</small>
-                        </div>
-                    </div>
-                    <span class="ref-status">+ R$ 5,00</span>
-                </div>
-                <div class="ref-item">
-                    <div class="ref-info">
-                        <div class="ref-avatar">A</div>
-                        <div>
-                            <span class="ref-name">Ana Beatriz</span><br>
-                            <small style="color:#666">Entrou há 5 horas</small>
-                        </div>
-                    </div>
-                    <span class="ref-status">+ R$ 5,00</span>
-                </div>
-                <div class="ref-item">
-                    <div class="ref-info">
-                        <div class="ref-avatar">R</div>
-                        <div>
-                            <span class="ref-name">Ricardo Silva</span><br>
-                            <small style="color:#666">Entrou há 1 dia</small>
-                        </div>
-                    </div>
-                    <span class="ref-status">+ R$ 5,00</span>
-                </div>
+                <div class="ref-item"><div>Marcos Oliveira</div><span class="ref-status">+ R$ 5,00</span></div>
+                <div class="ref-item"><div>Ana Beatriz</div><span class="ref-status">+ R$ 5,00</span></div>
             </div>
         </div>
     </div>
 
     <div class="nav">
-        <a href="index.html">Missões</a>
-        <a href="#" style="color:var(--primary)">Indicar</a>
-        <a href="suporte.html">Suporte</a>
-        <a href="index.html">Sacar</a>
+        <a href="index.html"><span>🏠</span>Missões</a>
+        <a href="indicar.html" style="color:var(--primary)"><span>👥</span>Indicar</a>
+        <a href="suporte.html"><span>🛠️</span>Suporte</a>
+        <a href="saque-pix.html"><span>💰</span>Sacar</a>
     </div>
 
     <script>
-        // Lógica de Link Dinâmico
         const nomeUser = localStorage.getItem('user_name') || "Player";
-        const idUnico = Math.floor(1000 + Math.random() * 9000);
-        const linkFinal = "https://play7-oficial.web.app/acesso?ref=" + nomeUser.toLowerCase().replace(/\s/g, '') + idUnico;
-        
+        const linkFinal = "https://play7-oficial.web.app/acesso?ref=" + nomeUser.toLowerCase().replace(/\s/g, '');
         document.getElementById('meu-link').innerText = linkFinal;
-
         function copiarLink() {
-            navigator.clipboard.writeText(document.getElementById('meu-link').innerText).then(() => {
-                alert("Link copiado! Seu amigo ganhará R$ 10 ao se cadastrar.");
-            });
+            navigator.clipboard.writeText(linkFinal).then(() => alert("Link copiado!"));
         }
     </script>
 </body>
