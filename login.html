@@ -6,7 +6,7 @@
     <title>Acesso | Play7</title>
     <style>
         :root { --bg: #0a0c12; --card: #171a26; --primary: #00e676; --text: #ffffff; --border: #2d313d; --accent: #ff9100; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         .login-card { background: var(--card); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 380px; text-align: center; box-shadow: 0 0 20px rgba(0, 230, 118, 0.1); }
         .welcome-msg { color: var(--primary); font-size: 1.4rem; font-weight: 800; line-height: 1.3; margin-bottom: 25px; }
         .highlight { color: var(--accent); }
@@ -16,6 +16,11 @@
         .btn { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; }
         .btn:hover { background: #00c866; transform: scale(1.02); }
         .bonus-tag { display: block; font-size: 0.7rem; color: var(--accent); margin-top: 8px; font-weight: bold; }
+        
+        /* Links Legais */
+        .footer-links { margin-top: 25px; padding-top: 15px; border-top: 1px solid #2d313d; }
+        .footer-links a { color: #555; font-size: 0.65rem; text-decoration: none; margin: 0 8px; text-transform: uppercase; }
+        .footer-links a:hover { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -34,6 +39,11 @@
         </div>
         <button class="btn" onclick="acessar()">Ganhe R$ 10 Reais Agora</button>
         <span class="bonus-tag">⚠️ Promoção por tempo limitado!</span>
+
+        <div class="footer-links">
+            <a href="termos.html">Termos de Uso</a>
+            <a href="privacidade.html">Privacidade</a>
+        </div>
     </div>
     <script>
         function acessar() {
@@ -42,6 +52,8 @@
             if(nome && email) {
                 localStorage.setItem('user_name', nome);
                 localStorage.setItem('saldo_inicial', '10.00');
+                // Garante que o saldo atual comece com o bônus
+                localStorage.setItem('saldo_atual', '10.00');
                 location.href = 'index.html'; 
             } else {
                 alert('Preencha os campos para resgatar seus R$ 10,00!');
