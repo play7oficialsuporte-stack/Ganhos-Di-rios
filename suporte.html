@@ -6,7 +6,7 @@
     <title>Suporte | Play7</title>
     <style>
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 120px; display: flex; flex-direction: column; align-items: center; }
         
         .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 10; }
         .container { width: 90%; max-width: 450px; margin-top: 25px; }
@@ -17,7 +17,6 @@
         h2 { margin: 10px 0; font-size: 1.4rem; }
         .subtitle { font-size: 0.85rem; color: #b0b3b8; margin-bottom: 25px; }
 
-        /* FAQ Estilizado */
         .faq-container { text-align: left; margin-bottom: 30px; }
         .faq-item { background: #0a0c12; border: 1px solid var(--border); padding: 18px; border-radius: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; }
         .faq-item:hover { border-color: var(--primary); }
@@ -25,10 +24,13 @@
         .faq-question::after { content: '▾'; position: absolute; right: 0; color: #444; }
         .faq-answer { font-size: 0.85rem; color: #b0b3b8; line-height: 1.6; display: none; padding-top: 5px; border-top: 1px solid #1a1d29; margin-top: 5px; }
 
-        /* Botão de E-mail */
         .btn-email { background: #2d313d; color: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; box-sizing: border-box; transition: 0.3s; font-size: 0.8rem; }
-        .btn-email:hover { background: #3d4252; border-color: var(--primary); }
+        .btn-email:hover { border-color: var(--primary); }
         
+        .legal-links { margin-top: 25px; font-size: 0.7rem; }
+        .legal-links a { color: #666; text-decoration: none; margin: 0 10px; }
+        .legal-links a:hover { color: var(--primary); }
+
         .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 100; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; font-weight: 500; }
     </style>
@@ -76,6 +78,11 @@
             <a href="mailto:play7oficialsuporte@gmail.com" class="btn-email">
                 📧 play7oficialsuporte@gmail.com
             </a>
+
+            <div class="legal-links">
+                <a href="termos.html">Termos de Uso</a>
+                <a href="privacidade.html">Privacidade</a>
+            </div>
         </div>
     </div>
 
@@ -90,10 +97,7 @@
         function toggleFaq(el) {
             const answer = el.querySelector('.faq-answer');
             const isOpen = answer.style.display === 'block';
-            
-            // Fecha todos os outros antes de abrir o novo (opcional, deixa mais limpo)
             document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
-            
             answer.style.display = isOpen ? 'none' : 'block';
         }
     </script>
