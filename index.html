@@ -9,25 +9,31 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 110px; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; }
+        
+        /* Borda lateral no título conforme solicitado */
+        .section-title { border-left: 4px solid var(--primary); padding-left: 10px; margin: 20px 0; font-size: 1.2rem; }
+
         .header { background: rgba(23,26,38,0.9); padding: 15px 20px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
         .user-info { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
         .user-id { font-size: 0.7rem; color: #b0b3b8; }
+        
         .balance-box { margin-top: 80px; padding: 20px; }
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; transition: 0.3s; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
         .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
+        
         .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; font-size: 0.8rem; }
+        
+        .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; text-decoration: none; font-size: 0.8rem; }
         .btn:disabled { background: #2d313d; color: #888; cursor: not-allowed; }
         
-        /* Menu Inferior */
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.75rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .logout-link { color: #ff4444 !important; font-weight: bold; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; text-align: center; }
+        .logout-btn { color: #ff4444 !important; }
         
-        .ad-container { margin: 20px 0; text-align: center; }
+        .ad-container { margin: 20px 0; text-align: center; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -47,12 +53,12 @@
     </div>
 
     <div class="task-list">
-        <h3>Missões de Elite 🏆</h3>
-
+        <h3 class="section-title">Missões Disponíveis 🔥</h3>
+        
         <div class="task" style="border: 1px solid var(--accent);">
-            <div><strong>#GAME</strong><br><small>Jogar Damas (Capturas)</small></div>
+            <div><strong>#GAME</strong><br><small>Damas: Ganhe R$ 0,50 por 3 peças</small></div>
             <div style="color:var(--primary)">+R$ 0,50</div>
-            <a href="damas.html" class="btn" style="background:var(--accent)">JOGAR AGORA</a>
+            <a href="damas.html" class="btn" style="background:var(--accent)">JOGAR</a>
         </div>
 
         <div class="task">
@@ -60,7 +66,31 @@
             <div style="color:var(--primary)">+R$ 4,50</div>
             <button class="btn" onclick="executarMissao(this, 'http://spotify.com', 4.50, 10000)">INICIAR</button>
         </div>
-        
+
+        <div class="task">
+            <div><strong>#02</strong><br><small>Seguir Instagram</small></div>
+            <div style="color:var(--primary)">+R$ 3,00</div>
+            <button class="btn" onclick="executarMissao(this, 'http://instagram.com', 3.00, 5000)">INICIAR</button>
+        </div>
+
+        <div class="task">
+            <div><strong>#03</strong><br><small>Avaliar App</small></div>
+            <div style="color:var(--primary)">+R$ 5,00</div>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 5.00, 7000)">INICIAR</button>
+        </div>
+
+        <div class="task">
+            <div><strong>#04</strong><br><small>Assistir Vídeo</small></div>
+            <div style="color:var(--primary)">+R$ 2,50</div>
+            <button class="btn" onclick="executarMissao(this, 'http://youtube.com', 2.50, 5000)">INICIAR</button>
+        </div>
+
+        <div class="task">
+            <div><strong>#05</strong><br><small>Validar Cadastro</small></div>
+            <div style="color:var(--primary)">+R$ 6,00</div>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 6.00, 8000)">INICIAR</button>
+        </div>
+
         <div class="ad-container">
             <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
             <div id="container-dd67faf43ae614125e2514fd79f215d3"></div>
@@ -68,67 +98,58 @@
     </div>
 
     <div class="nav">
-        <a href="#" style="color:var(--primary)"><span>🏠</span>Missões</a>
-        <a href="indicar.html"><span>👥</span>Indicar</a>
-        <a href="suporte.html"><span>🛠️</span>Suporte</a>
-        <a href="saque-pix.html"><span>💰</span>Sacar</a>
-        <a href="#" onclick="fazerLogout()" class="logout-link"><span>🚪</span>Sair</a>
+        <a href="index.html" style="color:var(--primary)">Missões</a>
+        <a href="indicar.html">Indicar</a>
+        <a href="suporte.html">Suporte</a>
+        <a href="saque-pix.html">Sacar</a>
+        <a href="#" onclick="fazerLogout()" class="logout-btn">Sair</a>
     </div>
 
     <script>
-        // Configuração Firebase e Inicialização de Saldo
         const firebaseConfig = { apiKey: "AIzaSyApku26MbZnOV7uA3AOikunVsSmsW_E84Y", authDomain: "play7oficial-c9243.firebaseapp.com", projectId: "play7oficial-c9243", storageBucket: "play7oficial-c9243.firebasestorage.app", messagingSenderId: "234372671693", appId: "1:234372671693:web:dae3f8ab7b7952206778f9" };
         firebase.initializeApp(firebaseConfig);
         
         const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
-        // IMPORTANTE: Busca o saldo atualizado (seja do bônus ou do jogo de damas)
         let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || parseFloat(localStorage.getItem('saldo_inicial')) || 0;
 
         document.getElementById('user-display').innerText = "Usuário: " + nomeSalvo;
         document.getElementById('id-display').innerText = "ID: #" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
-
-        function animarSaldo(valorFinal) {
-            const elemento = document.getElementById('saldo');
-            let valorExibido = parseFloat(elemento.innerText.replace('R$ ', '').replace(',', '.'));
-            const passos = 20;
-            const incremento = (valorFinal - valorExibido) / passos;
-            let i = 0;
-            const intervalo = setInterval(() => {
-                valorExibido += incremento;
-                elemento.innerText = `R$ ${valorExibido.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                i++;
-                if (i >= passos) {
-                    elemento.innerText = `R$ ${valorFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                    clearInterval(intervalo);
-                }
-            }, 50);
+        
+        function atualizarInterfaceSaldo() {
+            document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
         }
 
         function executarMissao(btn, link, valor, tempo) {
             window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
+            
             btn.disabled = true;
             btn.innerText = "VALIDANDO...";
             btn.style.background = "var(--accent)";
 
             setTimeout(() => {
                 saldoLocal += valor;
-                animarSaldo(saldoLocal);
                 localStorage.setItem('saldo_atual', saldoLocal);
+                atualizarInterfaceSaldo();
+
                 btn.innerText = "CONCLUÍDO ✅";
                 btn.style.background = "#2d313d";
                 window.open(link, '_blank');
             }, tempo);
         }
 
-        // FUNÇÃO DE LOGOUT
         function fazerLogout() {
-            if(confirm("Deseja realmente sair da sua conta? Seu progresso fica salvo no navegador.")) {
-                // Não limpamos o localStorage totalmente para não perder o saldo, 
-                // apenas redirecionamos para simular a saída.
+            if(confirm("Deseja realmente sair? Seu progresso está salvo.")) {
                 location.href = 'login.html';
             }
         }
+
+        // Sincroniza o saldo se o usuário ganhar dinheiro no jogo de damas e voltar para esta aba
+        window.onfocus = function() {
+            saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || saldoLocal;
+            atualizarInterfaceSaldo();
+        };
+
+        atualizarInterfaceSaldo();
     </script>
 </body>
 </html>
