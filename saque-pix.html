@@ -2,54 +2,41 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Resgatar Saldo | Play7</title>
     <style>
-        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; --error: #ff5252; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
+        * { box-sizing: border-box; } /* CORREÇÃO: Impede o scroll lateral */
+        :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; width: 100%; }
         
         .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); }
-        .container { width: 90%; max-width: 400px; margin-top: 25px; }
+        .container { width: 95%; max-width: 400px; margin-top: 25px; padding: 0 10px; }
         
-        /* Card de Status */
         .card-status { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; }
         .progress-container { background: #0a0c12; height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; border: 1px solid var(--border); }
-        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1); box-shadow: 0 0 10px var(--primary); }
+        .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: 1.5s ease-out; box-shadow: 0 0 10px var(--primary); }
         
-        /* Formulário */
-        .pix-form { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; position: relative; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 8px; }
-        select, input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: #0a0c12; color: #fff; box-sizing: border-box; font-size: 1rem; }
+        .pix-form { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; }
+        input, select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: #0a0c12; color: #fff; margin-bottom: 15px; font-size: 1rem; }
         
-        .btn-saque { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .btn-saque { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 
-        /* MODAL DE ERRO/AVISO */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-card { width: 85%; max-width: 350px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; text-align: center; animation: popUp 0.3s ease-out; }
-        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .icon-warn { font-size: 40px; color: var(--accent); margin-bottom: 15px; }
-        .modal-title { font-weight: 800; font-size: 1.2rem; margin-bottom: 10px; color: #fff; }
-        .modal-text { font-size: 0.9rem; color: #b0b3b8; line-height: 1.5; margin-bottom: 20px; }
-        .btn-modal { background: #2d313d; color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-card { width: 85%; max-width: 350px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; text-align: center; }
 
-        .nav { position: fixed; bottom: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); }
-        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.8rem; }
+        .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav a span { font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-    <div class="header-simple">
-        <strong style="color:var(--primary)">ÁREA DE PAGAMENTO</strong>
-    </div>
+    <div class="header-simple"><strong style="color:var(--primary)">ÁREA DE PAGAMENTO</strong></div>
 
     <div class="container">
         <div class="card-status">
             <small style="color:#888">SEU PROGRESSO</small>
-            <div class="progress-container">
-                <div class="progress-bar" id="barra"></div>
-            </div>
+            <div class="progress-container"><div class="progress-bar" id="barra"></div></div>
             <div style="display:flex; justify-content: space-between; font-size: 0.8rem;">
                 <span id="saldo-txt" style="font-weight:bold">R$ 0,00</span>
                 <span style="color:var(--primary)">Meta: R$ 200,00</span>
@@ -57,80 +44,41 @@
         </div>
 
         <div class="pix-form">
-            <div class="input-group">
-                <label>Método de Recebimento</label>
-                <select>
-                    <option>PIX (Instante)</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Tipo de Chave</label>
-                <select id="tipo">
-                    <option>CPF</option>
-                    <option>E-mail</option>
-                    <option>Celular</option>
-                    <option>Chave Aleatória</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Sua Chave PIX</label>
-                <input type="text" id="chave" placeholder="Insira sua chave aqui">
-            </div>
+            <select id="tipo"><option>CPF</option><option>E-mail</option><option>Celular</option></select>
+            <input type="text" id="chave" placeholder="Sua Chave PIX">
             <button class="btn-saque" onclick="verificarSaque()">SOLICITAR SAQUE</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal">
         <div class="modal-card">
-            <div class="icon-warn">⚠️</div>
-            <div class="modal-title">Saldo Insuficiente</div>
-            <div class="modal-text">
-                Você ainda não atingiu o valor mínimo de <b>R$ 200,00</b> para realizar o saque. <br><br>
-                Continue realizando as missões e indicando amigos para liberar seu pagamento!
-            </div>
-            <button class="btn-modal" onclick="fecharModal()">ENTENDI, VOU CONTINUAR</button>
+            <div style="font-size:40px; margin-bottom:15px;">⚠️</div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Saldo Insuficiente</div>
+            <p style="font-size:0.85rem; color:#b0b3b8;">Atinja <b>R$ 200,00</b> para liberar o saque.</p>
+            <button onclick="document.getElementById('modal').style.display='none'" style="background:#2d313d; color:#fff; border:none; padding:12px; border-radius:10px; width:100%; cursor:pointer;">OK</button>
         </div>
     </div>
 
     <div class="nav">
-        <a href="index.html">Missões</a>
-        <a href="indicar.html">Indicar</a>
-        <a href="suporte.html">Suporte</a>
-        <a href="#" style="color:var(--primary)">Sacar</a>
+        <a href="index.html"><span>🏠</span>Missões</a>
+        <a href="indicar.html"><span>👥</span>Indicar</a>
+        <a href="suporte.html"><span>🛠️</span>Suporte</a>
+        <a href="saque-pix.html" style="color:var(--primary)"><span>💰</span>Sacar</a>
     </div>
 
     <script>
         const saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || 0;
-        const meta = 200;
-
-        // Atualiza a interface visual
         document.getElementById('saldo-txt').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
-        
-        // Anima a barra de progresso
         setTimeout(() => {
-            let pct = (saldoLocal / meta) * 100;
-            if(pct > 100) pct = 100;
-            document.getElementById('barra').style.width = (pct < 5 ? 5 : pct) + "%";
+            let pct = (saldoLocal / 200) * 100;
+            document.getElementById('barra').style.width = (pct > 100 ? 100 : pct) + "%";
         }, 100);
-
         function verificarSaque() {
-            const chave = document.getElementById('chave').value;
-            if(!chave) {
-                alert("Por favor, preencha sua chave PIX.");
-                return;
-            }
-
-            if(saldoLocal < meta) {
-                // Abre o modal elegante em vez do alert
-                document.getElementById('modal').style.display = 'flex';
-            } else {
-                alert("Sucesso! Aguarde o processamento.");
-            }
-        }
-
-        function fecharModal() {
-            document.getElementById('modal').style.display = 'none';
+            if(!document.getElementById('chave').value) return alert("Insira a chave!");
+            if(saldoLocal < 200) document.getElementById('modal').style.display = 'flex';
+            else alert("Solicitação enviada!");
         }
     </script>
 </body>
 </html>
+
