@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Suporte | Play7</title>
     <style>
-        * { box-sizing: border-box; } /* CORREÇÃO DO SCROLL */
+        * { box-sizing: border-box; } /* TRAVA DE ROLAGEM LATERAL */
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 120px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 120px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; width: 100%; }
+        
         .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 10; }
-        .container { width: 95%; max-width: 450px; margin-top: 25px; }
+        .container { width: 95%; max-width: 450px; margin-top: 25px; padding: 0 10px; }
+        
         .support-card { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 24px; text-align: center; }
         .faq-item { background: #0a0c12; border: 1px solid var(--border); padding: 18px; border-radius: 14px; margin-bottom: 12px; cursor: pointer; text-align: left; }
         .faq-question { font-size: 0.9rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; }
         .faq-answer { font-size: 0.85rem; color: #b0b3b8; display: none; line-height: 1.6; border-top: 1px solid #1a1d29; padding-top: 10px; }
-        .btn-email { background: #2d313d; color: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; text-decoration: none; display: flex; justify-content: center; font-size: 0.8rem; }
-        .legal-links { margin-top: 25px; font-size: 0.7rem; }
+
+        .btn-email { background: #2d313d; color: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; text-decoration: none; display: flex; justify-content: center; font-size: 0.8rem; margin-top: 15px; }
+        
+        .legal-links { margin-top: 25px; font-size: 0.75rem; }
         .legal-links a { color: #666; text-decoration: none; margin: 0 10px; }
+
         /* MENU COM ÍCONES */
         .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -24,29 +29,40 @@
     </style>
 </head>
 <body>
+
     <div class="header-simple"><strong style="color:var(--primary)">PLAY7 | SUPORTE</strong></div>
+
     <div class="container">
         <div class="support-card">
             <div style="color:var(--primary); font-size:0.7rem; margin-bottom:10px;">● CENTRAL DE AJUDA ATIVA</div>
             <h2 style="margin:10px 0;">Dúvidas Frequentes</h2>
+
             <div class="faq-item" onclick="toggleFaq(this)">
                 <span class="faq-question">Como funciona o site de missões?</span>
-                <span class="faq-answer">Você realiza tarefas simples e recebe recompensas no saldo.</span>
+                <span class="faq-answer">Você se cadastra gratuitamente, escolhe as missões disponíveis e realiza tarefas simples como testar aplicativos, responder pesquisas ou assistir conteúdos. Após concluir a missão corretamente, você recebe a recompensa no seu saldo.</span>
             </div>
+
             <div class="faq-item" onclick="toggleFaq(this)">
-                <span class="faq-question">Preciso pagar alguma taxa?</span>
-                <span class="faq-answer">Não. O cadastro e participação são totalmente gratuitos.</span>
+                <span class="faq-question">Preciso pagar alguma taxa para participar?</span>
+                <span class="faq-answer">Não. O cadastro e a participação nas missões são totalmente gratuitos. Você só precisa cumprir corretamente as tarefas para receber as recompensas.</span>
             </div>
+
             <div class="faq-item" onclick="toggleFaq(this)">
                 <span class="faq-question">As missões são limitadas?</span>
-                <span class="faq-answer">Algumas possuem vagas limitadas pelos anunciantes.</span>
+                <span class="faq-answer">Algumas missões são disponibilizadas por parceiros e possuem quantidade limitada de vagas. Quando o número máximo de participantes é atingido, a missão é encerrada automaticamente.</span>
             </div>
+
             <div class="faq-item" onclick="toggleFaq(this)">
-                <span class="faq-question">Fiz uma missão e não atualizou?</span>
-                <span class="faq-answer">O saldo pode levar alguns minutos para ser validado pelo sistema.</span>
+                <span class="faq-question">O que acontece se eu não cumprir a missão corretamente?</span>
+                <span class="faq-answer">Se a tarefa não for concluída conforme as regras, ela pode ser recusada e a recompensa não será creditada. Por isso, sempre leia as instruções antes de iniciar.</span>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <span class="faq-question">Fiz uma missão mais meu saldo não atualizou ainda?</span>
+                <span class="faq-answer">Após a conclusão da missão, o saldo pode levar alguns minutos para ser atualizado, pois cada tarefa passa por um processo automático de verificação. Fique tranquilo(a), assim que a validação for concluída, a recompensa será creditada no seu saldo.</span>
             </div>
             
-            <p style="font-size: 0.75rem; color: #666; margin-bottom: 15px;">Ajuda personalizada via e-mail:</p>
+            <p style="font-size: 0.75rem; color: #666; margin-top: 20px;">Ajuda personalizada via e-mail:</p>
             <a href="mailto:play7oficialsuporte@gmail.com" class="btn-email">📧 play7oficialsuporte@gmail.com</a>
             
             <div class="legal-links">
@@ -55,12 +71,19 @@
             </div>
         </div>
     </div>
+
     <div class="nav">
         <a href="index.html"><span>🏠</span>Missões</a>
         <a href="indicar.html"><span>👥</span>Indicar</a>
         <a href="suporte.html" style="color:var(--primary)"><span>🛠️</span>Suporte</a>
         <a href="saque-pix.html"><span>💰</span>Sacar</a>
     </div>
-    <script>function toggleFaq(el) { const ans = el.querySelector('.faq-answer'); ans.style.display = ans.style.display === 'block' ? 'none' : 'block'; }</script>
+
+    <script>
+        function toggleFaq(el) {
+            const ans = el.querySelector('.faq-answer');
+            ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
