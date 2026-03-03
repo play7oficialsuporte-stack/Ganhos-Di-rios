@@ -8,41 +8,29 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        * { box-sizing: border-box; } /* CORREÇÃO: Impede o scroll lateral */
+        * { box-sizing: border-box; } /* CORREÇÃO DO SCROLL */
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; width: 100%; }
-        
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         .section-title { border-left: 4px solid var(--primary); padding-left: 10px; margin: 20px 0; font-size: 1.2rem; }
-
         .header { background: rgba(23,26,38,0.9); padding: 15px 20px; border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(5px); display: flex; justify-content: space-between; align-items: center; }
-        .user-info { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
-        .user-id { font-size: 0.7rem; color: #b0b3b8; }
-        
-        .balance-box { margin-top: 80px; padding: 20px; width: 100%; }
+        .balance-box { margin-top: 80px; padding: 20px; }
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; text-align: center; }
         .balance-val { font-size: 2.5rem; color: var(--primary); font-weight: 800; margin: 5px 0; }
         .promo-banner { width: 100%; border-radius: 12px; margin-top: 15px; border: 1px solid var(--border); }
-        
-        .task-list { padding: 0 20px; width: 100%; }
+        .task-list { padding: 0 20px; }
         .task { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        
         .btn { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.8rem; }
-        
-        /* NAV ATUALIZADA COM ÍCONES */
-        .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000; }
+        /* MENU COM ÍCONES */
+        .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .nav a span { font-size: 1.2rem; }
-        .active-nav { color: var(--primary) !important; }
-        .logout-btn { color: #ff4444 !important; }
-        
-        .ad-container { margin: 20px 0; text-align: center; width: 100%; }
+        .ad-container { margin: 20px 0; text-align: center; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; }
     </style>
 </head>
 <body>
-
     <div class="header">
-        <div class="user-info" id="user-display">Usuário: ...</div>
-        <div class="user-id" id="id-display">ID: #000000</div>
+        <div id="user-display" style="color:var(--primary); font-weight:600;">Carregando...</div>
+        <div id="id-display" style="font-size:0.7rem; color:#888;">ID: #000000</div>
     </div>
 
     <div class="balance-box">
@@ -56,15 +44,29 @@
 
     <div class="task-list">
         <h3 class="section-title">Missões Disponíveis 🔥</h3>
-        
         <div class="task" style="border: 1px solid var(--accent);">
-            <div><strong>#GAME</strong><br><small>Damas: R$ 0,50 p/ captura</small></div>
+            <div><strong>#GAME</strong><br><small>Damas: Ganhe R$ 0,50 por 3 peças</small></div>
             <a href="damas.html" class="btn" style="background:var(--accent)">JOGAR</a>
         </div>
-
         <div class="task">
             <div><strong>#01</strong><br><small>Ouvir Spotify</small></div>
-            <button class="btn" onclick="executarMissao(this, 'http://google.com', 4.50, 10000)">INICIAR</button>
+            <button class="btn" onclick="executarMissao(this, 'http://spotify.com', 4.50, 10000)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>#02</strong><br><small>Seguir Instagram</small></div>
+            <button class="btn" onclick="executarMissao(this, 'http://instagram.com', 3.00, 5000)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>#03</strong><br><small>Avaliar App</small></div>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 5.00, 7000)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>#04</strong><br><small>Assistir Vídeo</small></div>
+            <button class="btn" onclick="executarMissao(this, 'http://youtube.com', 2.50, 5000)">INICIAR</button>
+        </div>
+        <div class="task">
+            <div><strong>#05</strong><br><small>Validar Cadastro</small></div>
+            <button class="btn" onclick="executarMissao(this, 'http://google.com', 6.00, 8000)">INICIAR</button>
         </div>
         <div class="ad-container">
             <script async="async" data-cfasync="false" src="https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js"></script>
@@ -73,41 +75,27 @@
     </div>
 
     <div class="nav">
-        <a href="index.html" class="active-nav"><span>🏠</span>Início</a>
+        <a href="index.html" style="color:var(--primary)"><span>🏠</span>Missões</a>
         <a href="indicar.html"><span>👥</span>Indicar</a>
         <a href="suporte.html"><span>🛠️</span>Suporte</a>
         <a href="saque-pix.html"><span>💰</span>Sacar</a>
-        <a href="#" onclick="fazerLogout()" class="logout-btn"><span>🚪</span>Sair</a>
     </div>
 
     <script>
-        // Lógica de saldo mantida exatamente igual à sua
         const nomeSalvo = localStorage.getItem('user_name') || "Convidado";
-        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || 0;
+        let saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || parseFloat(localStorage.getItem('saldo_inicial')) || 0;
         document.getElementById('user-display').innerText = "Usuário: " + nomeSalvo;
-        
-        function atualizarInterfaceSaldo() {
-            document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`;
-        }
-
+        document.getElementById('id-display').innerText = "ID: #" + Math.floor(100000 + Math.random() * 900000);
+        function atualizarInterfaceSaldo() { document.getElementById('saldo').innerText = `R$ ${saldoLocal.toFixed(2).replace('.', ',')}`; }
         function executarMissao(btn, link, valor, tempo) {
             window.open('https://freelygreatestscammer.com/dd67faf43ae614125e2514fd79f215d3/invoke.js', '_blank'); 
-            btn.disabled = true;
-            btn.innerText = "VALIDANDO...";
+            btn.disabled = true; btn.innerText = "VALIDANDO...";
             setTimeout(() => {
-                saldoLocal += valor;
-                localStorage.setItem('saldo_atual', saldoLocal);
-                atualizarInterfaceSaldo();
-                btn.innerText = "CONCLUÍDO ✅";
-                window.open(link, '_blank');
+                saldoLocal += valor; localStorage.setItem('saldo_atual', saldoLocal); atualizarInterfaceSaldo();
+                btn.innerText = "CONCLUÍDO ✅"; window.open(link, '_blank');
             }, tempo);
         }
-
-        function fazerLogout() { if(confirm("Deseja sair?")) location.href = 'login.html'; }
-        window.onfocus = function() { 
-            saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || saldoLocal;
-            atualizarInterfaceSaldo();
-        };
+        window.onfocus = function() { saldoLocal = parseFloat(localStorage.getItem('saldo_atual')) || saldoLocal; atualizarInterfaceSaldo(); };
         atualizarInterfaceSaldo();
     </script>
 </body>
