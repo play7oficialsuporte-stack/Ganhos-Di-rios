@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Indique e Ganhe | Play7</title>
+    
+    <title>Indique e Ganhe | Play7 Oficial</title>
+    <meta name="description" content="Convide amigos para o Play7 e ganhe bônus por cada indicação confirmada. Aumente seus ganhos na plataforma oficial de missões.">
+    
+    <link rel="icon" href="https://i.ibb.co/MD6gF4ML/Polish-20250312-161330070.png" type="image/x-icon">
+
     <style>
-        * { box-sizing: border-box; } /* TRAVA DE ROLAGEM */
+        * { box-sizing: border-box; }
         :root { --bg-deep: #0f111a; --bg-card: #171a26; --primary: #00e676; --accent: #ff9100; --text: #ffffff; --border: #2d313d; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: var(--text); margin: 0; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; width: 100%; }
         
         .header-simple { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 10; }
         .container { width: 90%; max-width: 400px; margin-top: 20px; }
@@ -15,20 +20,17 @@
         .card-refer { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; text-align: center; }
         .reward-badge { background: rgba(255, 145, 0, 0.1); color: var(--accent); padding: 8px 15px; border-radius: 50px; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
         
-        .link-box { background: #0a0c12; border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; margin: 20px 0; cursor: pointer; transition: 0.3s; }
+        .link-box { background: #0a0c12; border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; margin: 20px 0; cursor: pointer; }
         .link-text { font-size: 0.75rem; color: var(--primary); word-break: break-all; font-family: monospace; }
         
         .btn-copy { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; }
-
+        
         .referral-section { margin-top: 30px; width: 100%; }
-        .section-title { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .section-title { font-size: 0.9rem; color: #888; text-transform: uppercase; margin-bottom: 15px; display: block; border-left: 4px solid var(--primary); padding-left: 10px; }
         
         .ref-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
         .ref-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); }
-        .ref-avatar { width: 35px; height: 35px; background: #2d313d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); font-size: 0.8rem; }
-        .ref-status { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
 
-        /* MENU COM ÍCONES */
         .nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0c12; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 1000; }
         .nav a { color: #b0b3b8; text-decoration: none; font-size: 0.7rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .nav a span { font-size: 1.2rem; }
@@ -42,20 +44,27 @@
         <div class="card-refer">
             <div class="reward-badge">🔥 BÔNUS DE LANÇAMENTO</div>
             <h2 style="margin:5px 0;">Ganhe R$ 5,00 por Indicação</h2>
-            <p style="font-size: 0.85rem; color: #b0b3b8;">Seu amigo ganha <b>R$ 10,00</b> ao entrar e você ganha <b>R$ 5,00</b>!</p>
-            <div class="link-box" onclick="copiarLink()"><div class="link-text" id="meu-link">Carregando link...</div></div>
-            <button class="btn-copy" onclick="copiarLink()">Copiar meu Link</button>
-            <div style="background: rgba(0, 230, 118, 0.05); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: 10px; padding: 10px; margin-top: 15px; font-size: 0.75rem; color: #b0b3b8;">
-                ⚠️ Você já usou <b>3/10</b> bônus de indicação.
+            <p style="font-size: 0.85rem; color: #b0b3b8;">Seu amigo ganha <b>R$ 10,00</b> ao entrar e você ganha <b>R$ 5,00</b> após a primeira missão dele!</p>
+            
+            <div class="link-box" onclick="copiarLink()">
+                <div class="link-text" id="meu-link">Carregando link...</div>
             </div>
+            
+            <button class="btn-copy" onclick="copiarLink()">Copiar meu Link</button>
+            <div style="font-size: 0.75rem; color: #666; margin-top:10px;">Indicações ilimitadas ativas</div>
         </div>
 
         <div class="referral-section">
-            <span class="section-title">Indicados Recentes</span>
+            <span class="section-title">Seus Indicados</span>
             <div class="ref-list">
-                <div class="ref-item"><div style="display:flex; align-items:center; gap:12px;"><div class="ref-avatar">M</div><div><span style="font-size:0.85rem; font-weight:600;">Marcos Oliveira</span><br><small style="color:#666">Entrou há 2 horas</small></div></div><span class="ref-status">+ R$ 5,00</span></div>
-                <div class="ref-item"><div style="display:flex; align-items:center; gap:12px;"><div class="ref-avatar">A</div><div><span style="font-size:0.85rem; font-weight:600;">Ana Beatriz</span><br><small style="color:#666">Entrou há 5 horas</small></div></div><span class="ref-status">+ R$ 5,00</span></div>
-                <div class="ref-item"><div style="display:flex; align-items:center; gap:12px;"><div class="ref-avatar">R</div><div><span style="font-size:0.85rem; font-weight:600;">Ricardo Silva</span><br><small style="color:#666">Entrou há 1 dia</small></div></div><span class="ref-status">+ R$ 5,00</span></div>
+                <div class="ref-item">
+                    <div>Marcos Oliveira</div>
+                    <span style="color:var(--primary); font-weight:bold;">+ R$ 5,00</span>
+                </div>
+                <div class="ref-item">
+                    <div>Ana Beatriz</div>
+                    <span style="color:var(--primary); font-weight:bold;">+ R$ 5,00</span>
+                </div>
             </div>
         </div>
     </div>
@@ -69,9 +78,14 @@
 
     <script>
         const nomeUser = localStorage.getItem('user_name') || "Player";
-        const linkFinal = "https://play7-oficial.web.app/acesso?ref=" + nomeUser.toLowerCase().replace(/\s/g, '') + Math.floor(1000 + Math.random() * 9000);
+        const linkFinal = "https://www.play7oficial.com/index.html?ref=" + nomeUser.toLowerCase().replace(/\s/g, '');
         document.getElementById('meu-link').innerText = linkFinal;
-        function copiarLink() { navigator.clipboard.writeText(linkFinal).then(() => alert("Link copiado!")); }
+
+        function copiarLink() {
+            navigator.clipboard.writeText(linkFinal).then(() => {
+                alert("Link de indicação copiado com sucesso!");
+            });
+        }
     </script>
 </body>
 </html>
